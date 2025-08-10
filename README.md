@@ -21,12 +21,11 @@ python manage.py runserver
 
 ## پیکربندی `.env`
 ```env
-DEBUG=True
-SECRET_KEY=your-secret-key
-ALLOWED_HOSTS=127.0.0.1,localhost
-
-DB_ENGINE=django.db.backends.sqlite3
-DB_NAME=db.sqlite3
+DB_NAME = 'DB_NAME'
+DB_USER = 'DB_USER'
+DB_PASSWORD = 'DB_STRONGPASSWORD'
+DB_HOST = 'DB_IP'
+DB_PORT = 'DB_PORT'
 ```
 
 ## ویژگی‌ها
