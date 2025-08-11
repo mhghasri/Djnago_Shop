@@ -3,3 +3,4 @@ test.*
 __pycache__
 migrations
 resources
+public
