@@ -113,11 +113,11 @@ def product_detail(request, **kwargs):
     
     # filter special sells product
 
-    special_sells = products.filter(special_sells=True).exclude(id=product.id)      # except the selected product
+    special_sells = products.filter(special_sells=True).exclude(pk=product.id)      # except the selected product
 
     # filter discounted product
 
-    discounted_product = products.filter(discount__gt = 0).exclude(id=product.id)   # except the selected product
+    discounted_product = products.filter(discount__gt = 0).exclude(pk=product.id)   # except the selected product
 
     context = {
 
