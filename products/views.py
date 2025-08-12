@@ -102,8 +102,24 @@ def products(request):
 # ---------------------- product details ---------------------- #
 
 def product_detail(request, **kwargs):
+
+    # for all
+
+    products = Product.objects.all()
+
+    special_sells = products.filter(special_sells=True)
+
+    
+    product = get_object_or_404(Product.objects.prefetch_related("attribute", "gallery"), pk=kwargs["pk"])
+
     context = {
 
+        # products
+        'products' : products,
+        'product' : product,
+        'attributes' : product.attribute.all(),
+        'images' : product.gallery.all(),
+        'special_sells' : special_sells
     }
 
     return render(request, 'product_detail.html', context)

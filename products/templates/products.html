@@ -789,14 +789,14 @@
                             </div>
 
                             <!-- product img -->
-                            <a href="product-details.html">
+                            <a href="{% url 'product_details' product.id product.slug %}">
                             <img class="product-card_img group-hover:opacity-0 absolute" src="{{product.image_1.url}}" alt="laptop_image">
                             <img class="product-card_img opacity-0 group-hover:opacity-100" src="{{product.image_2.url}}" alt="laptop_image">
                             </a>
 
                             <!--  product footer -->
                             <div class="space-y-2">
-                            <a href="product-details.html" class="product-card_link">
+                            <a href="{% url 'product_details' product.id product.slug %}" class="product-card_link">
                                 {{product.title|truncatewords:5}}
                             </a>
 
