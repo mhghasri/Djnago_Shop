@@ -103,16 +103,21 @@ def products(request):
 
 def product_detail(request, **kwargs):
 
-    # for all
+    # for all products
 
     products = Product.objects.all()
 
-    special_sells = products.filter(special_sells=True)
+    # for selected product
 
-    discounted_product = products.filter(discount__gt = 0)
-
-    
     product = get_object_or_404(Product.objects.prefetch_related("attribute", "gallery"), pk=kwargs["pk"])
+    
+    # filter special sells product
+
+    special_sells = products.filter(special_sells=True).exclude(id=product.id)      # except the selected product
+
+    # filter discounted product
+
+    discounted_product = products.filter(discount__gt = 0).exclude(id=product.id)   # except the selected product
 
     context = {
 
