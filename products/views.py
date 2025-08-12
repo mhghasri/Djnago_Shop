@@ -109,6 +109,8 @@ def product_detail(request, **kwargs):
 
     special_sells = products.filter(special_sells=True)
 
+    discounted_product = products.filter(discount__gt = 0)
+
     
     product = get_object_or_404(Product.objects.prefetch_related("attribute", "gallery"), pk=kwargs["pk"])
 
@@ -121,6 +123,7 @@ def product_detail(request, **kwargs):
         'images' : product.gallery.all(),
         'colors' : product.colors.all(),
         'special_sells' : special_sells,
+        'discounted_product' : discounted_product,
     }
 
     return render(request, 'product_detail.html', context)

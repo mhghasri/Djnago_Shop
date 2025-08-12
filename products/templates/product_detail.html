@@ -604,8 +604,8 @@
                         </svg>
                     </span>
                     <div class="space-y-1 md:space-y-1">
-                        <h3 class="text-xl md:text-2xl font-MorabbaMedium text-gray-800 dark:text-gray-50">فروش
-                            <span class="text-blue-600 dark:text-blue-500">ویژه</span>
+                        <h3 class="text-xl md:text-2xl font-MorabbaMedium text-gray-800 dark:text-gray-50">محصولات
+                            <span class="text-blue-600 dark:text-blue-500">مرتبط</span>
                         </h3>
                         <p class="text-sm text-gray-500 dark:text-gray-300">جدیدترین و بروزترین محصولات</p>
                     </div>
@@ -641,86 +641,224 @@
                 <div class="swiper-wrapper py-5">
                     <!-- PRODUCT ITEM -->
                     {% for item in special_sells %}
-                        <div class="swiper-slide product-card group">
-                            <!-- product header -->
-                            <div class="product-card_header">
-                                <div class="flex items-center gap-x-2">
-                                    <div class="tooltip">
-                                        <button class="rounded-full p-1.5 app-border app-hover">
-                                            <svg class="size-4">
-                                                <use href="#shopping-cart"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="tooltiptext">
-                                            سبد خرید
+                        {% if item.id != product.id %}
+                            <div class="swiper-slide product-card group">
+                                <!-- product header -->
+                                <div class="product-card_header">
+                                    <div class="flex items-center gap-x-2">
+                                        <div class="tooltip">
+                                            <button class="rounded-full p-1.5 app-border app-hover">
+                                                <svg class="size-4">
+                                                    <use href="#shopping-cart"></use>
+                                                </svg>
+                                            </button>
+                                            <div class="tooltiptext">
+                                                سبد خرید
+                                            </div>
+                                        </div>
+                                        <div class="tooltip">
+                                            <button class="rounded-full p-1.5 app-border app-hover">
+                                                <svg class="size-4">
+                                                    <use href="#heart"></use>
+                                                </svg>
+                                            </button>
+                                            <div class="tooltiptext">
+                                                علاقه مندی
+                                            </div>
+                                        </div>
+                                        <div class="tooltip">
+                                            <button class="rounded-full p-1.5 app-border app-hover">
+                                                <svg class="size-4">
+                                                    <use href="#arrows-up-down"></use>
+                                                </svg>
+                                            </button>
+                                            <div class="tooltiptext">
+                                                مقایسه
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="tooltip">
-                                        <button class="rounded-full p-1.5 app-border app-hover">
-                                            <svg class="size-4">
-                                                <use href="#heart"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="tooltiptext">
-                                            علاقه مندی
-                                        </div>
-                                    </div>
-                                    <div class="tooltip">
-                                        <button class="rounded-full p-1.5 app-border app-hover">
-                                            <svg class="size-4">
-                                                <use href="#arrows-up-down"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="tooltiptext">
-                                            مقایسه
-                                        </div>
-                                    </div>
+                                    <!-- badge offer -->
+                                    {% if item.discount != 0 %}
+                                        <span class="product-card_badge">{{ item.discount }}% تخفیف‌</span>
+                                    {% endif %}
                                 </div>
-                                <!-- badge offer -->
-                                {% if item.discount != 0 %}
-                                    <span class="product-card_badge">{{ item.discount }}% تخفیف‌</span>
-                                {% endif %}
-                            </div>
-                            <!-- product img -->
-                            <a href="{% url 'product_details' item.id item.slug %}">
-                                <img class="product-card_img group-hover:opacity-0 absolute" src="{{ item.image_1.url }}"
-                                    alt="product_images">
-                                <img class="product-card_img opacity-0 group-hover:opacity-100"
-                                    src="{{ item.image_2.url }}" alt="product_images">
-                            </a>
-                            <!--  product footer -->
-                            <div class="space-y-2">
-                                <a href="{% url 'product_details' item.id item.slug %}" class="product-card_link">
-                                    {{ item.title|truncatewords:5 }}
+                                <!-- product img -->
+                                <a href="{% url 'product_details' item.id item.slug %}">
+                                    <img class="product-card_img group-hover:opacity-0 absolute" src="{{ item.image_1.url }}"
+                                        alt="product_images">
+                                    <img class="product-card_img opacity-0 group-hover:opacity-100"
+                                        src="{{ item.image_2.url }}" alt="product_images">
                                 </a>
-                                <!-- Rate and Price -->
-                                <div class="product-card_price-wrapper">
-                                    <!-- RATE -->
-                                    <div class="product-card_rate">
-                                        <span class="flex items-center gap-x-0.5">
-                                            <svg class="size-4 text-blue-500 mb-0.5">
-                                                <use href="#rocket"></use>
-                                            </svg>
-                                            <p class="text-xs">ارسال امروز</p>
-                                        </span>
-                                        <span class="text-gray-400 flex items-center text-sm gap-x-0.5">
-                                            <p> 5.0 </p>
-                                            <svg class="size-4 mb-1">
-                                                <use href="#star"></use>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <!-- Price -->
-                                    <div class="product-card_price">
-                                        {% if item.discount != 0 %}
-                                            <del>{{ item.price|currency }} <h6>تومان</h6></del>
-                                        {% endif %}
-                                        <p>{{ item.final_price|currency }}</p>
-                                        <span>تومان</span>
+                                <!--  product footer -->
+                                <div class="space-y-2">
+                                    <a href="{% url 'product_details' item.id item.slug %}" class="product-card_link">
+                                        {{ item.title|truncatewords:5 }}
+                                    </a>
+                                    <!-- Rate and Price -->
+                                    <div class="product-card_price-wrapper">
+                                        <!-- RATE -->
+                                        <div class="product-card_rate">
+                                            <span class="flex items-center gap-x-0.5">
+                                                <svg class="size-4 text-blue-500 mb-0.5">
+                                                    <use href="#rocket"></use>
+                                                </svg>
+                                                <p class="text-xs">ارسال امروز</p>
+                                            </span>
+                                            <span class="text-gray-400 flex items-center text-sm gap-x-0.5">
+                                                <p> 5.0 </p>
+                                                <svg class="size-4 mb-1">
+                                                    <use href="#star"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <!-- Price -->
+                                        <div class="product-card_price">
+                                            {% if item.discount != 0 %}
+                                                <del>{{ item.price|currency }} <h6>تومان</h6></del>
+                                            {% endif %}
+                                            <p>{{ item.final_price|currency }}</p>
+                                            <span>تومان</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+         <!-- Discount-selling products -->
+        <section class="mx-4 mt-10 lg:mt-20">
+            <!-- SECTION TITLE -->
+            <div
+                class="flex flex-col gap-y-4 xs:flex-row items-center justify-between w-full text-center xs:text-start">
+                <div class="flex items-center gap-x-2 sm:gap-x-4">
+                    <span class="size-12 hidden xs:flex rounded-lg bg-white shadow-lg dark:bg-gray-800 flex-center">
+                        <svg class="size-7 text-gray-700 dark:text-gray-100">
+                            <use href="#mobile"></use>
+                        </svg>
+                    </span>
+                    <div class="space-y-1 md:space-y-1">
+                        <h3 class="text-xl md:text-2xl font-MorabbaMedium text-gray-800 dark:text-gray-50">فروش
+                            <span class="text-blue-600 dark:text-blue-500">ویژه</span>
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-300">محصولات تخفیف دار</p>
+                    </div>
+                </div>
+                <div class="w-full xs:w-auto flex justify-between xs:justify-end  items-center gap-x-2">
+                    <div class="flex items-center gap-x-2">
+                        <button class="slider-navigate_btn BestSelling-prev-slide">
+                            <svg class="size-6 -rotate-90">
+                                <use href="#chevron" />
+                            </svg>
+                        </button>
+                        <button class="slider-navigate_btn BestSelling-next-slide">
+                            <svg class="size-6 rotate-90">
+                                <use href="#chevron" />
+                            </svg>
+                        </button>
+                    </div>
+                    <a href="#"
+                        class="group shadow-xl text-sm md:text-base flex gap-x-1.5 items-center px-2 h-10 md:px-3 text-white bg-blue-600 rounded-xl">
+                        <p>مشاهده همه</p>
+                        <span
+                            class="w-7 h-7 rounded-full bg-blue-500 flex-center md:group-hover:-translate-x-1 transition-transform duration-300">
+                            <svg class="size-5">
+                                <use href="#arrow" />
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+
+            </div>
+            <!-- Latest products Slider -->
+            <div class="swiper BestSelling mt-5 w-full">
+                <div class="swiper-wrapper py-5">
+                    <!-- PRODUCT ITEM -->
+                    {% for item in discounted_product %}
+                        {% if item.id != product.id %}
+                            <div class="swiper-slide product-card group">
+                                <!-- product header -->
+                                <div class="product-card_header">
+                                    <div class="flex items-center gap-x-2">
+                                        <div class="tooltip">
+                                            <button class="rounded-full p-1.5 app-border app-hover">
+                                                <svg class="size-4">
+                                                    <use href="#shopping-cart"></use>
+                                                </svg>
+                                            </button>
+                                            <div class="tooltiptext">
+                                                سبد خرید
+                                            </div>
+                                        </div>
+                                        <div class="tooltip">
+                                            <button class="rounded-full p-1.5 app-border app-hover">
+                                                <svg class="size-4">
+                                                    <use href="#heart"></use>
+                                                </svg>
+                                            </button>
+                                            <div class="tooltiptext">
+                                                علاقه مندی
+                                            </div>
+                                        </div>
+                                        <div class="tooltip">
+                                            <button class="rounded-full p-1.5 app-border app-hover">
+                                                <svg class="size-4">
+                                                    <use href="#arrows-up-down"></use>
+                                                </svg>
+                                            </button>
+                                            <div class="tooltiptext">
+                                                مقایسه
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- badge offer -->
+                                    {% if item.discount != 0 %}
+                                        <span class="product-card_badge">{{ item.discount }}% تخفیف‌</span>
+                                    {% endif %}
+                                </div>
+                                <!-- product img -->
+                                <a href="{% url 'product_details' item.id item.slug %}">
+                                    <img class="product-card_img group-hover:opacity-0 absolute" src="{{ item.image_1.url }}"
+                                        alt="product_images">
+                                    <img class="product-card_img opacity-0 group-hover:opacity-100"
+                                        src="{{ item.image_2.url }}" alt="product_images">
+                                </a>
+                                <!--  product footer -->
+                                <div class="space-y-2">
+                                    <a href="{% url 'product_details' item.id item.slug %}" class="product-card_link">
+                                        {{ item.title|truncatewords:5 }}
+                                    </a>
+                                    <!-- Rate and Price -->
+                                    <div class="product-card_price-wrapper">
+                                        <!-- RATE -->
+                                        <div class="product-card_rate">
+                                            <span class="flex items-center gap-x-0.5">
+                                                <svg class="size-4 text-blue-500 mb-0.5">
+                                                    <use href="#rocket"></use>
+                                                </svg>
+                                                <p class="text-xs">ارسال امروز</p>
+                                            </span>
+                                            <span class="text-gray-400 flex items-center text-sm gap-x-0.5">
+                                                <p> 5.0 </p>
+                                                <svg class="size-4 mb-1">
+                                                    <use href="#star"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <!-- Price -->
+                                        <div class="product-card_price">
+                                            {% if item.discount != 0 %}
+                                                <del>{{ item.price|currency }} <h6>تومان</h6></del>
+                                            {% endif %}
+                                            <p>{{ item.final_price|currency }}</p>
+                                            <span>تومان</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
