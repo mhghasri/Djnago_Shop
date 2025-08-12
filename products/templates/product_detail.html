@@ -449,22 +449,55 @@
                         </div>
                         <!-- COLOR -->
                         <div class="flex flex-col gap-y-4">
-                            <h1 class="font-DanaDemiBold text-lg color-title dark:text-gray-200">رنگ : سبز</h1>
+                            <h1 id="color-title" class="font-DanaDemiBold text-lg color-title dark:text-gray-200">
+                                رنگ :
+                            </h1>
+
                             <div class="flex items-center gap-x-3 child:rounded-full child:size-9 child:p-1">
-                              <button class="color-select-btn ring-4 ring-blue-400 transition-all duration-300 ease-in-out">
-                                <span class="bg-black w-full h-full rounded-full flex"></span>
-                              </button>
-                              <button class="color-select-btn ring-1 ring-gray-400 transition-all duration-300 ease-in-out">
-                                <span class="bg-white app-border w-full h-full rounded-full flex"></span>
-                              </button>
-                              <button class="color-select-btn ring-1 ring-gray-400 transition-all duration-300 ease-in-out">
-                                <span class="bg-green-400 w-full h-full rounded-full flex"></span>
-                              </button>
-                              <button class="color-select-btn ring-1 ring-gray-400 transition-all duration-300 ease-in-out">
-                                <span class="bg-blue-500 w-full h-full rounded-full flex"></span>
-                              </button>
+                                {% for c in colors %}
+                                {% if c.color == "m" %}
+                                    <button type="button"
+                                            class="color-select-btn {% if forloop.first %}is-default{% endif %} ring-1 ring-gray-400 transition-all duration-300 ease-in-out"
+                                            data-color="m"
+                                            data-price="{{ c.final_price }}">
+                                    <span class="bg-black w-full h-full rounded-full flex"></span>
+                                    </button>
+                                {% endif %}
+                                {% if c.color == "w" %}
+                                    <button type="button"
+                                            class="color-select-btn {% if forloop.first %}is-default{% endif %} ring-1 ring-gray-400 transition-all duration-300 ease-in-out"
+                                            data-color="w"
+                                            data-price="{{ c.final_price }}">
+                                    <span class="bg-white app-border w-full h-full rounded-full flex"></span>
+                                    </button>
+                                {% endif %}
+                                {% if c.color == "g" %}
+                                    <button type="button"
+                                            class="color-select-btn {% if forloop.first %}is-default{% endif %} ring-1 ring-gray-400 transition-all duration-300 ease-in-out"
+                                            data-color="g"
+                                            data-price="{{ c.final_price }}">
+                                    <span class="bg-green-400 w-full h-full rounded-full flex"></span>
+                                    </button>
+                                {% endif %}
+                                {% if c.color == "b" %}
+                                    <button type="button"
+                                            class="color-select-btn {% if forloop.first %}is-default{% endif %} ring-1 ring-gray-400 transition-all duration-300 ease-in-out"
+                                            data-color="b"
+                                            data-price="{{ c.final_price }}">
+                                    <span class="bg-blue-500 w-full h-full rounded-full flex"></span>
+                                    </button>
+                                {% endif %}
+                                {% if c.color == "r" %}
+                                    <button type="button"
+                                            class="color-select-btn {% if forloop.first %}is-default{% endif %} ring-1 ring-gray-400 transition-all duration-300 ease-in-out"
+                                            data-color="r"
+                                            data-price="{{ c.final_price }}">
+                                    <span class="bg-red-500 w-full h-full rounded-full flex"></span>
+                                    </button>
+                                {% endif %}
+                                {% endfor %}
                             </div>
-                        </div>  
+                        </div>
                         <!-- Features Box  -->
                         <div class="w-full flex flex-col gap-y-4">
                             <h1 class="font-DanaDemiBold text-lg dark:text-gray-200">ویژگی‌ها</h1>
@@ -514,8 +547,10 @@
             <div class="w-full lg:w-1/4 lg:sticky top-5 flex flex-col gap-y-6">
                 <!-- PRICE -->
                 <div class="flex items-center gap-x-1">
-                    <p class="text-2xl font-DanaDemiBold">۹۹,۸۹۹,۰۰۰</p>
-                    <p class="">تومان</p>
+                    <p id="price-amount" class="text-2xl font-DanaDemiBold">
+                        {{ product.price|currency }}
+                    </p>
+                    <p>تومان</p>
                 </div>
                 <button
                     class="w-full flex items-center justify-between gap-x-1 rounded-lg border border-gray-200 dark:border-white/20 py-2 px-3">
@@ -1075,4 +1110,44 @@
 {% block js %}
     <script src="{% static 'scripts/productDetails.js' %}"></script>
     <script src="{% static 'scripts/slider.js' %}"></script>
+    <script>
+        (function () {
+        const priceEl = document.getElementById('price-amount');
+        const titleEl = document.getElementById('color-title');
+        const btns = document.querySelectorAll('.color-select-btn');
+
+        const colorNamesFa = { m: 'مشکی', w: 'سفید', g: 'سبز', b: 'آبی', r: 'قرمز' };
+
+        function formatToman(n) {
+            const num = parseInt(n, 10) || 0;
+            return num.toLocaleString('fa-IR');
+        }
+
+        function selectBtn(active) {
+            btns.forEach(b => b.classList.remove('ring-4', 'ring-blue-400'));
+            btns.forEach(b => b.classList.add('ring-1', 'ring-gray-400'));
+            active.classList.remove('ring-1', 'ring-gray-400');
+            active.classList.add('ring-4', 'ring-blue-400');
+        }
+
+        function updateFromBtn(btn) {
+            const price = btn.dataset.price;
+            const code  = btn.dataset.color;
+            if (priceEl && price) priceEl.textContent = formatToman(price);
+            if (titleEl && code) titleEl.textContent = `رنگ : ${colorNamesFa[code] || code}`;
+            selectBtn(btn);
+        }
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => updateFromBtn(btn));
+        });
+
+        // انتخاب خودکار اولین رنگ
+        const defaultBtn = document.querySelector('.color-select-btn.is-default') || btns[0];
+        if (defaultBtn) {
+            updateFromBtn(defaultBtn);
+        }
+        })();
+    </script>
+
 {% endblock js %}

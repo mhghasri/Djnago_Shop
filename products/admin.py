@@ -15,12 +15,19 @@ class ImagesInline(admin.TabularInline):
     model = ProductImage
     extra = 0
 
+# ----------- ImagesInline ----------- #
+
+class ColorInline(admin.TabularInline):
+    model = ProductColor
+    extra = 0
+    fields = ['color', 'price']
+
 # -------------------- AdminModel -------------------- #
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'price', 'discount', 'final_price', 'special_sells', 'created_at', 'is_available']
 
-    inlines = [AttributeInline, ImagesInline]
+    inlines = [AttributeInline, ImagesInline, ColorInline]
 
     fieldsets = [
         ("Information", {'fields' : ('title', 'full_detail', 'description', 'image_1', 'image_2')}),
@@ -28,8 +35,17 @@ class ProductAdmin(admin.ModelAdmin):
         ("Details", {'fields' : ('is_available', 'special_sells')}),
     ]
 
+# -------------------- ColorModel -------------------- #
+
+class ProductColorAdmin(admin.ModelAdmin):
+
+    fieldsets = [
+        ("Color", {'fields' : ('color', )}),
+        ("Price", {'fields' : ('price', )}),
+    ]
 
 # -------------------- register -------------------- #
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Attribute)
 admin.site.register(ProductImage)
+admin.site.register(ProductColor, ProductColorAdmin)

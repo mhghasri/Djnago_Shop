@@ -70,3 +70,31 @@ class ProductImage(models.Model):
     
     class Meta:
         verbose_name_plural = "ProductImage List"
+
+# --------- ProductColor Model --------- #
+
+# -- colors -- #
+
+colors = [
+    ("r", "قرمز"),
+    ("b", "آبی"),
+    ("m", "مشکی"),
+    ("w", "سفید"),
+    ("g", "سبز"),
+]
+
+class ProductColor(models.Model):
+    color = models.CharField(max_length=2, choices=colors)
+    price = models.IntegerField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="colors")
+
+    @property #-> call to template
+    def final_price(self)->int:
+        final_price = int(self.price - (self.product.discount * self.price / 100))
+        return final_price
+    
+    def __str__(self):
+        return f"Product | {self.product.title}"
+    
+    class Meta:
+        verbose_name_plural = "ProductColor List"

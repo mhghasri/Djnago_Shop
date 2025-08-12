@@ -119,7 +119,8 @@ def product_detail(request, **kwargs):
         'product' : product,
         'attributes' : product.attribute.all(),
         'images' : product.gallery.all(),
-        'special_sells' : special_sells
+        'colors' : product.colors.all(),
+        'special_sells' : special_sells,
     }
 
     return render(request, 'product_detail.html', context)
