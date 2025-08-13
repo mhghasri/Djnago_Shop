@@ -1,0 +1,51 @@
+from django.db import models
+
+# -------------- Author -------------- # 
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"Author name | {self.name}"
+
+# -------------- Category -------------- #
+
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+# -------------- Article -------------- #
+
+class Article(models.Model):
+    title = models.CharField(max_length=200)
+    created_at = models.DateField(auto_now_add=True)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='articles_author')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='articles_category')
+    views = models.PositiveIntegerField(default=0)      # for views from users
+    description = models.TextField(blank=True)
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+
+        if not self.slug:
+            self.slug = self.title.replace(" ", "_").lower()
+
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Article | {self.title} --- {self.author.name} --- {self.category.name}"
+    
+    class Meta:
+        verbose_name_plural = "Article List"
+
+# -------------- Attributes -------------- # 
+
+class Attribute(models.Model):
+    name = models.CharField(max_length=200)
+    value = models.CharField(max_length=200)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='attributes')
+
+    def __str__(self):
+        return f"Article | {self.article.title} --- {self.name}"
