@@ -13,7 +13,7 @@ def articles(request):
     # ---------- articles query ---------- #
 
     # articles = Article.objects.all()
-    articles = Article.objects.select_related('author','category')
+    articles = Article.objects.select_related('author','category')      # article query foreignkey selected realation
 
     # ---------- sort ---------- #
 
