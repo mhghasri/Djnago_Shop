@@ -42,7 +42,7 @@ def products(request):
     if only_discounted:
         products = products.filter(discount__gt = 0)
 
-    # ---------- only_discounted ---------- #
+    # ---------- sort ---------- #
     
     sort = request.GET.get('sort')
 
