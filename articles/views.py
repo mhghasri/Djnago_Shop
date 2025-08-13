@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from . models import *
 from django.core.paginator import Paginator
+from django.db.models import F              # for setion views
 
 # Create your views here.
 
@@ -96,7 +97,30 @@ def article_details(request, **kwargs):
 
     news = articles.exclude(pk=article.id)
 
+    # ----- my solotion ----- #
+    '''
     article.views += 1
+
+    article.save(update_fields=['views'])
+    
+    '''
+    # ----- with out cookies ----- #
+    '''
+    # viewed = request.session.get('viewed_articles', [])
+
+    # if article.id not in viewed:
+
+    #     # for add new view
+    #     Article.objects.filter(pk=article.pk).update(views=F('views') + 1)
+
+    #     # for show view to this render
+    #     article.refresh_from_db(fields=['views'])
+
+    #     # document this view to user
+    #     viewed.append(article.id)
+    #     request.session['viewed_articles'] = viewed
+    
+    '''
 
     context = {
         'articles' : articles,
@@ -107,5 +131,15 @@ def article_details(request, **kwargs):
         'category' : category,
 
     }
+
+    # ----- cookies ----- #
+    
+    cookie_name = f'viewed_article_{article.id}'
+    if not request.COOKIES.get(cookie_name):
+        Article.objects.filter(pk=article.pk).update(views=F('views') + 1)
+        article.refresh_from_db(fields=['views'])
+        response = render(request, 'article_details.html', context)
+        response.set_cookie(cookie_name, '1', max_age=60*60*24, httponly=True, samesite='Lax')
+        return response   
 
     return render(request, 'article_details.html', context)
