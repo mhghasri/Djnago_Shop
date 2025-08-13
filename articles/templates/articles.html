@@ -546,7 +546,7 @@
                                 <img src="{{ article.image.url }}" class="article-box_img" alt="article-image" />
                                 <div
                                     class="absolute opacity-0 left-0 top-0 bottom-0 right-0 bg-black/60 flex items-center justify-center group-hover:opacity-100 duration-300 transition-all rounded-bl-3xl rounded-tr-3xl">
-                                    <a href="article-details.html"
+                                    <a href="{% url 'article_details' article.id article.slug %}"
                                         class="flex items-center px-2 py-1 gap-x-1 font-DanaMedium rounded-lg border-2 border-white text-white">
                                         <p>ادامه مطالب</p>
                                         <svg class="w-4 h-4 rotate-90">

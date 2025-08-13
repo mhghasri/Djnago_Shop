@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from . models import *
 from django.core.paginator import Paginator
 
@@ -87,7 +87,24 @@ def articles(request):
     return render(request, 'articles.html', context)
 
 def article_details(request, **kwargs):
+
+    articles = Article.objects.select_related('category', 'author')
+
+    category = Category.objects.all()
+
+    article = get_object_or_404(Article.objects.select_related('category', 'author').prefetch_related('attributes', 'images'), pk=kwargs['pk'])
+
+    news = articles.exclude(pk=article.id)
+
+    article.views += 1
+
     context = {
+        'articles' : articles,
+        'article' : article,
+        'news' : news,
+        'images' : article.images.all(),
+        'attributes' : article.attributes.all(),
+        'category' : category,
 
     }
 
