@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from . models import *
 from django.core.paginator import Paginator
 from django.db.models import F              # for setion views
+from django.db.models import Count          # for count category
 
 # Create your views here.
 
@@ -91,11 +92,13 @@ def article_details(request, **kwargs):
 
     articles = Article.objects.select_related('category', 'author')
 
-    category = Category.objects.all()
+    # category = Category.objects.all()
+
+    category = Category.objects.annotate(article_count=Count('articles_category')) # Count('related_name')
 
     article = get_object_or_404(Article.objects.select_related('category', 'author').prefetch_related('attributes', 'images'), pk=kwargs['pk'])
 
-    news = articles.exclude(pk=article.id)
+    news = articles.exclude(pk=article.id)      # for dont show article to news list
 
     # ----- my solotion ----- #
     '''

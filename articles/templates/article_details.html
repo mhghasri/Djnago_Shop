@@ -364,50 +364,23 @@
                 <div>
                     <h4 class="font-DanaMedium"> دسته بندی : </h4>
                     <ul class="child:flex child:items-center child:justify-between child:cursor-pointer space-y-3 ">
-                        <li class="group">
-                            <span
-                                class="flex items-center justify-center gap-x-1 group-hover:pr-2 duration-300 transition-all group-hover:text-blue-500">
-                                <p>برسی موبایل</p>
-                                <svg class="w-4 h-4">
-                                    <use href="#chevron-left"></use>
-                                </svg>
-                            </span>
-                            <span
-                                class="w-5 h-5 flex items-center justify-center rounded-lg text-white bg-blue-500 text-xs">12</span>
-                        </li>
-                        <li class="group">
-                            <span
-                                class="flex items-center justify-center gap-x-1 group-hover:pr-2 duration-300 transition-all group-hover:text-blue-500">
-                                <p>لپتاپ</p>
-                                <svg class="w-4 h-4">
-                                    <use href="#chevron-left"></use>
-                                </svg>
-                            </span>
-                            <span
-                                class="w-5 h-5 flex items-center justify-center rounded-lg text-white bg-blue-500 text-xs">2</span>
-                        </li>
-                        <li class="group">
-                            <span
-                                class="flex items-center justify-center gap-x-1 group-hover:pr-2 duration-300 transition-all group-hover:text-blue-500">
-                                <p>هدفون و ساعت</p>
-                                <svg class="w-4 h-4">
-                                    <use href="#chevron-left"></use>
-                                </svg>
-                            </span>
-                            <span
-                                class="w-5 h-5 flex items-center justify-center rounded-lg text-white bg-blue-500 text-xs">6</span>
-                        </li>
-                        <li class="group">
-                            <span
-                                class="flex items-center justify-center gap-x-1 group-hover:pr-2 duration-300 transition-all group-hover:text-blue-500">
-                                <p>تکنولوژی</p>
-                                <svg class="w-4 h-4">
-                                    <use href="#chevron-left"></use>
-                                </svg>
-                            </span>
-                            <span
-                                class="w-5 h-5 flex items-center justify-center rounded-lg text-white bg-blue-500 text-xs">12</span>
-                        </li>
+                        {% for cat in category %}
+                            <li class="group">
+                                {% comment %} urlencode is for / _ - | or other special char {% endcomment %}
+                                <a href="{% url 'articles' %}?category={{ cat.slug|urlencode }}" 
+                                class="flex items-center justify-between gap-x-2 w-full group-hover:text-blue-500 transition-all duration-300">
+                                <span
+                                    class="flex items-center justify-center gap-x-1 group-hover:pr-2 duration-300 transition-all group-hover:text-blue-500">
+                                    <p>{{ cat.name }}</p>
+                                    <svg class="w-4 h-4">
+                                        <use href="#chevron-left"></use>
+                                    </svg>
+                                </span>
+                                <span
+                                    class="w-5 h-5 flex items-center justify-center rounded-lg text-white bg-blue-500 text-xs">{{ cat.article_count }}</span>
+                                </a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>

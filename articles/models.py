@@ -80,3 +80,6 @@ class Attribute(models.Model):
 class ArticleImage(models.Model):
     image = models.ImageField(upload_to=article_gallery_path)
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='images')
+
+    def __str__(self):
+        return f"Article | {self.article.title}"
