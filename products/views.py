@@ -8,7 +8,9 @@ from django.core.paginator import Paginator
 def products(request):
 
     # ---------- query ---------- #
-    products = Product.objects.all()
+    products = Product.objects.select_related('category')
+
+    category = Category.objects.all()
 
     # ---------- price range ---------- #
 
@@ -61,6 +63,13 @@ def products(request):
     else:
         products = products.order_by('-created_at')
 
+    # ---------- category ---------- #
+
+    category_params = request.GET.get('category')
+
+    if category_params:
+        products = products.filter(category__slug = category_params)        # filter by category
+    
     # ---------- paginator ---------- #
 
     paginator = Paginator(products, 9)
@@ -83,6 +92,10 @@ def products(request):
     # ---------- context ---------- #
 
     context = {
+
+        # category
+        'category' : category,
+
         # product query
         "products" : products,
 

@@ -20,6 +20,22 @@ def product_gallery_path(instance, filename):
 # ------------------------ Models ------------------------ #
 
 # --------- Product Model --------- #
+
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+
+        if not self.slug:
+            self.slug = self.name.lower().replace(" ", "_")
+
+        return super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.name
+
+# --------- Product Model --------- #
 class Product(models.Model):
     title = models.CharField(max_length=200)
     full_detail = models.TextField(blank=True)
@@ -33,6 +49,7 @@ class Product(models.Model):
     image_1 = models.ImageField(upload_to=product_image_path)
     image_2 = models.ImageField(upload_to=product_image_path)
     slug = models.SlugField(unique=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='product_category', null=True, blank=True)
 
     def save(self, *args, **kwargs):
 

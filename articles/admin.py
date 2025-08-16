@@ -11,7 +11,7 @@ class ImageInline(admin.TabularInline):
     model = ArticleImage
     extra = 0
 
-# -------------- Inline -------------- #
+# -------------- Admin -------------- #
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'views']
@@ -26,8 +26,17 @@ class ArticleAdmin(admin.ModelAdmin):
 
 # -------------- register -------------- #
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+    fieldsets = [
+        ("Information", {'fields' : ('name', )}),
+    ]
+
+# -------------- register -------------- #
+
 admin.site.register(Author)
-admin.site.register(Category)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Attribute)
 admin.site.register(ArticleImage)

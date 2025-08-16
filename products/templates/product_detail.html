@@ -371,7 +371,7 @@
                     <!-- INFOS -->
                     <div class="w-full md:w-3/4 flex flex-col gap-y-7">
                         <div class="flex items-center justify-between">
-                            <a href="{% url 'products' %}" class="font-DanaMedium text-sky-400">اپل / گوشی موبایل اپل</a>
+                            <a href="{% url 'products' %}?category={{ product.category.slug|urlencode }}" class="font-DanaMedium text-sky-400">{{ product.category.name }}</a>
                             <div class="hidden md:flex items-center gap-x-2">
                                 <div class="tooltip">
                                     <button class="rounded-full p-1.5 app-border app-hover">
