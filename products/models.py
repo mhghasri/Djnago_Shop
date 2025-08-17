@@ -19,7 +19,23 @@ def product_gallery_path(instance, filename):
     return f"products/gallery/django-image-{random_string}{ext}"
 # ------------------------ Models ------------------------ #
 
-# --------- Product Model --------- #
+# --------- Brand Model --------- #
+
+class Brand(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+
+        if not self.slug:
+            self.slug = self.name.lower().replace(" ", "_")
+
+        return super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.name
+
+# --------- Category Model --------- #
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -49,7 +65,8 @@ class Product(models.Model):
     image_1 = models.ImageField(upload_to=product_image_path)
     image_2 = models.ImageField(upload_to=product_image_path)
     slug = models.SlugField(unique=True, blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='product_category', null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='product_category')
+    brand = models.ForeignKey(Brand,  on_delete=models.CASCADE, related_name='product_brnad', null=True, blank=True)
 
     def save(self, *args, **kwargs):
 

@@ -12,6 +12,8 @@ def products(request):
 
     category = Category.objects.all()
 
+    brand = Brand.objects.all()
+
     # ---------- price range ---------- #
 
     min_price_range = request.GET.get('min_price_range')
@@ -70,6 +72,13 @@ def products(request):
     if category_params:
         products = products.filter(category__slug = category_params)        # filter by category
     
+    # ---------- brand ---------- #
+
+    brand_params = request.GET.get('brand')
+
+    if brand_params:
+        products = products.filter(brand__slug = brand_params)              # filter by brand
+    
     # ---------- paginator ---------- #
 
     paginator = Paginator(products, 9)
@@ -96,6 +105,9 @@ def products(request):
         # category
         'category' : category,
 
+        # brand
+        'brand' : brand,
+
         # product query
         "products" : products,
 
@@ -118,15 +130,15 @@ def product_detail(request, **kwargs):
 
     # for all products
 
-    products = Product.objects.all()
+    products = Product.objects.select_related('category', 'brand')
 
     # for selected product
 
-    product = get_object_or_404(Product.objects.prefetch_related("attribute", "gallery"), pk=kwargs["pk"])
+    product = get_object_or_404(Product.objects.select_related('category', 'brand').prefetch_related("attribute", "gallery"), pk=kwargs["pk"])
     
     # filter special sells product
 
-    special_sells = products.filter(special_sells=True).exclude(pk=product.id)      # except the selected product
+    related_product = products.exclude(pk=product.id)      # except the selected product
 
     # filter discounted product
 
@@ -140,7 +152,7 @@ def product_detail(request, **kwargs):
         'attributes' : product.attribute.all(),
         'images' : product.gallery.all(),
         'colors' : product.colors.all(),
-        'special_sells' : special_sells,
+        'related_product' : related_product,
         'discounted_product' : discounted_product,
     }
 

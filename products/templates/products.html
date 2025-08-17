@@ -269,59 +269,115 @@
                 </div>
                 <!-- FILTERS -->
                 <div class="w-full divide-y divide-slate-200 dark:divide-gray-700/20">
-                    <!-- Accordion -->
-                    <div class="">
-                        <button onclick="toggleAccordion(1)"
+                <!-- Accordion: Category -->
+                <div class="">
+                    <button onclick="toggleAccordion(1)"
                             class="w-full flex justify-between items-center px-2 xl:px-4 pt-4 mb-4 text-gray-800 dark:text-gray-100">
-                            <span>دسته بندی </span>
-                            <span id="icon-1" class="text-gray-800 dark:text-gray-100">
-                                <svg class="size-4 transition-transform duration-300">
-                                    <use href="#chevron-left"></use>
+                        <span>دسته بندی</span>
+                        <span id="icon-1" class="text-gray-800 dark:text-gray-100">
+                        <svg class="size-4 transition-transform duration-300">
+                            <use href="#chevron-left"></use>
+                        </svg>
+                        </span>
+                    </button>
+
+                    <div id="content-1" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div id="cat-filter" class="pb-3 text-gray-700 dark:text-gray-300 w-full flex flex-col gap-y-1.5">
+
+                        <!-- همه دسته بندی ها -->
+                        <div class="inline-flex items-center mr-2.5 mt-1">
+                            <label class="relative flex cursor-pointer items-center rounded-full p-3" for="cat-all" data-ripple-dark="true">
+                            <input id="cat-all" type="checkbox"
+                                    class="peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 shadow hover:shadow-md transition-all
+                                            before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4
+                                            before:rounded-full before:bg-slate-400 before:opacity-0 before:transition-opacity
+                                            checked:border-blue-500 checked:bg-blue-500 checked:before:bg-slate-400 hover:before:opacity-10 dark:bg-gray-600 dark:checked:bg-blue-500" />
+                            <span class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
                             </span>
-                        </button>
-                        <div id="content-1" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-                            <div id="cat-filter" class="pb-3 text-gray-700 dark:text-gray-300 w-full flex flex-col gap-y-1.5">
-
-                            <!-- همه اخبار -->
-                            <div class="inline-flex items-center mr-2.5 mt-1">
-                            <label class="relative flex cursor-pointer items-center rounded-full p-3" for="cat-all" data-ripple-dark="true">
-                                <input id="cat-all" type="checkbox"
-                                    class="peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 shadow hover:shadow-md transition-all
-                                            before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4
-                                            before:rounded-full before:bg-slate-400 before:opacity-0 before:transition-opacity
-                                            checked:border-blue-500 checked:bg-blue-500 checked:before:bg-slate-400 hover:before:opacity-10 dark:bg-gray-600 dark:checked:bg-blue-500" />
-                                <span class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                </span>
                             </label>
-                            <label class="cursor-pointer text-gray-800 dark:text-gray-400 mr-1" for="cat-all">همه اخبار</label>
-                            </div>
+                            <label class="cursor-pointer text-gray-800 dark:text-gray-400 mr-1" for="cat-all">همه دسته بندی ها</label>
+                        </div>
 
-                            <!-- کتگوری‌ها -->
-                            {% for cat in category %}
-                            <div class="inline-flex items-center mr-2.5 mt-1">
+                        <!-- کتگوری‌ها -->
+                        {% for cat in category %}
+                        <div class="inline-flex items-center mr-2.5 mt-1">
                             <label class="relative flex cursor-pointer items-center rounded-full p-3" for="cat-{{ cat.id }}" data-ripple-dark="true">
-                                <input id="cat-{{ cat.id }}" type="checkbox" name="category"
-                                    value="{{ cat.slug }}"
+                            <input id="cat-{{ cat.id }}" type="checkbox" name="category" value="{{ cat.slug }}"
                                     class="peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 shadow hover:shadow-md transition-all
                                             before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4
                                             before:rounded-full before:bg-slate-400 before:opacity-0 before:transition-opacity
                                             checked:border-blue-500 checked:bg-blue-500 checked:before:bg-slate-400 hover:before:opacity-10 dark:bg-gray-600 dark:checked:bg-blue-500" />
-                                <span class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
+                            <span class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                </span>
+                            </span>
                             </label>
                             <label class="cursor-pointer text-gray-800 dark:text-gray-400 mr-1" for="cat-{{ cat.id }}">{{ cat.name }}</label>
-                            </div>
-                            {% endfor %}
-                            </div>
+                        </div>
+                        {% endfor %}
+
                         </div>
                     </div>
+                </div>
+                <!-- Accordion: Brand -->
+                <div class="">
+                    <button onclick="toggleAccordion(2)"
+                            class="w-full flex justify-between items-center px-2 xl:px-4 pt-4 mb-4 text-gray-800 dark:text-gray-100">
+                        <span>برند</span>
+                        <span id="icon-2" class="text-gray-800 dark:text-gray-100">
+                        <svg class="size-4 transition-transform duration-300">
+                            <use href="#chevron-left"></use>
+                        </svg>
+                        </span>
+                    </button>
+
+                    <div id="content-2" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div id="bra-filter" class="pb-3 text-gray-700 dark:text-gray-300 w-full flex flex-col gap-y-1.5">
+
+                        <!-- همه برندها -->
+                        <div class="inline-flex items-center mr-2.5 mt-1">
+                            <label class="relative flex cursor-pointer items-center rounded-full p-3" for="bra-all" data-ripple-dark="true">
+                            <input id="bra-all" type="checkbox"
+                                    class="peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 shadow hover:shadow-md transition-all
+                                            before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4
+                                            before:rounded-full before:bg-slate-400 before:opacity-0 before:transition-opacity
+                                            checked:border-blue-500 checked:bg-blue-500 checked:before:bg-slate-400 hover:before:opacity-10 dark:bg-gray-600 dark:checked:bg-blue-500" />
+                            <span class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </span>
+                            </label>
+                            <label class="cursor-pointer text-gray-800 dark:text-gray-400 mr-1" for="bra-all">همه برندها</label>
+                        </div>
+
+                        <!-- لیست برندها -->
+                        {% for bra in brand %}
+                        <div class="inline-flex items-center mr-2.5 mt-1">
+                            <label class="relative flex cursor-pointer items-center rounded-full p-3" for="bra-{{ bra.id }}" data-ripple-dark="true">
+                            <input id="bra-{{ bra.id }}" type="checkbox" name="brand" value="{{ bra.slug }}"
+                                    class="peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 shadow hover:shadow-md transition-all
+                                            before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4
+                                            before:rounded-full before:bg-slate-400 before:opacity-0 before:transition-opacity
+                                            checked:border-blue-500 checked:bg-blue-500 checked:before:bg-slate-400 hover:before:opacity-10 dark:bg-gray-600 dark:checked:bg-blue-500" />
+                            <span class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </span>
+                            </label>
+                            <label class="cursor-pointer text-gray-800 dark:text-gray-400 mr-1" for="bra-{{ bra.id }}">{{ bra.name }}</label>
+                        </div>
+                        {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+
                     <!-- فقط کالاهای موجود -->
                     <div class="w-full justify-between flex items-center gap-x-3 px-2 xl:px-4 py-4" dir="ltr">
                         <label for="switch-available" class="relative inline-block w-11 h-6 cursor-pointer">
@@ -1022,8 +1078,8 @@
             });
         })();
     </script>
-    <!--filters-->
-    <script>
+    <!--filters category-->
+    {% comment %} <script>
             document.addEventListener('DOMContentLoaded', function () {
             const panel   = document.getElementById('content-1');
             const allBox  = document.getElementById('cat-all');
@@ -1076,5 +1132,115 @@
                 }
             }));
             });
-    </script>
+    </script> {% endcomment %}
+<script>
+  // باز/بستن آکاردئون با شناسه عددی (۱، ۲، ...)
+  function toggleAccordion(id) {
+    const panel = document.getElementById('content-' + id);
+    const icon  = document.getElementById('icon-' + id);
+    if (!panel) return;
+
+    const isOpen = panel.style.maxHeight && panel.style.maxHeight !== '0px';
+    if (isOpen) {
+      panel.style.maxHeight = '0px';
+      if (icon) icon.firstElementChild?.classList.remove('rotate-90');
+      panel.setAttribute('aria-expanded', 'false');
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+      if (icon) icon.firstElementChild?.classList.add('rotate-90');
+      panel.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    /**
+     * راه‌انداز جنریک فیلتر برای هر آکاردئون
+     * @param {Object} cfg
+     * @param {number} cfg.idNum        - شماره آکاردئون (برای content-{id} و icon-{id})
+     * @param {string} cfg.allId        - آیدی چک‌باکس «همه»
+     * @param {string} cfg.containerSel - سلکتور ظرف چک‌باکس‌ها
+     * @param {string} cfg.inputName    - name اینپوت‌ها (category یا brand)
+     * @param {string} cfg.urlParam     - نام پارامتر URL (category یا brand)
+     */
+    function setupFilter(cfg) {
+      const panel  = document.getElementById('content-' + cfg.idNum);
+      const icon   = document.getElementById('icon-' + cfg.idNum);
+      const allBox = document.getElementById(cfg.allId);
+      const boxes  = Array.from(document.querySelectorAll(cfg.containerSel + ' input[type="checkbox"][name="' + cfg.inputName + '"]'));
+      const params = new URLSearchParams(location.search);
+      const current = params.get(cfg.urlParam);  // مقدار فعلی پارامتر، یا null
+
+      // مقداردهی اولیه: اگر پارامتر مربوطه در URL بود، باز شود؛ در غیر این صورت بسته بماند
+      if (current) {
+        if (allBox) allBox.checked = false;
+        boxes.forEach(b => b.checked = (b.value === current));
+        if (panel) {
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+          panel.setAttribute('aria-expanded', 'true');
+        }
+        if (icon) icon.firstElementChild?.classList.add('rotate-90');
+      } else {
+        if (allBox) allBox.checked = true;
+        boxes.forEach(b => b.checked = false);
+        if (panel) {
+          panel.style.maxHeight = '0px'; // بسته
+          panel.setAttribute('aria-expanded', 'false');
+        }
+        if (icon) icon.firstElementChild?.classList.remove('rotate-90');
+      }
+
+      function navigateWith(nextVal) {
+        const p = new URLSearchParams(location.search);
+        p.delete('page'); // ریست صفحه‌بندی
+        if (nextVal) p.set(cfg.urlParam, nextVal);
+        else p.delete(cfg.urlParam);
+        const q = p.toString();
+        location.assign(location.pathname + (q ? '?' + q : ''));
+      }
+
+      if (allBox) {
+        allBox.addEventListener('change', () => {
+          if (allBox.checked) {
+            boxes.forEach(b => b.checked = false);
+            navigateWith(null);
+          } else {
+            allBox.checked = true; // همیشه حداقل یکی فعال
+          }
+        });
+      }
+
+      boxes.forEach(b => b.addEventListener('change', () => {
+        if (b.checked) {
+          boxes.forEach(x => { if (x !== b) x.checked = false; });
+          if (allBox) allBox.checked = false;
+          navigateWith(b.value);
+        } else {
+          if (!boxes.some(x => x.checked)) {
+            if (allBox) allBox.checked = true;
+            navigateWith(null);
+          }
+        }
+      }));
+    }
+
+    // راه‌اندازی آکاردئون «دسته‌بندی»
+    setupFilter({
+      idNum: 1,
+      allId: 'cat-all',
+      containerSel: '#cat-filter',
+      inputName: 'category',
+      urlParam: 'category'
+    });
+
+    // راه‌اندازی آکاردئون «برند»
+    setupFilter({
+      idNum: 2,
+      allId: 'bra-all',
+      containerSel: '#bra-filter',
+      inputName: 'brand',
+      urlParam: 'brand'
+    });
+  });
+</script>
+
 {% endblock js %}

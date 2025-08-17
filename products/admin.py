@@ -33,12 +33,22 @@ class ProductAdmin(admin.ModelAdmin):
         ("Information", {'fields' : ('title', 'full_detail', 'description', 'image_1', 'image_2')}),
         ("Price", {'fields' : ('price', 'discount')}),
         ('Category', {'fields' : ('category', )}),
+        ('Brand', {'fields' : ('brand', )}),
         ("Details", {'fields' : ('is_available', 'special_sells')}),
+    ]
+
+# -------------------- CategoryModel -------------------- #
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+    fieldsets = [
+        ("Information", {'fields' : ('name', )}),
     ]
 
 # -------------------- ColorModel -------------------- #
 
-class CategoryAdmin(admin.ModelAdmin):
+class BrandAdmin(admin.ModelAdmin):
     list_display = ['name']
 
     fieldsets = [
@@ -56,6 +66,7 @@ class ProductColorAdmin(admin.ModelAdmin):
 
 # -------------------- register -------------------- #
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Attribute)
 admin.site.register(ProductImage)
