@@ -421,25 +421,25 @@
                         </label>
                     </div>
                     <!-- Accordion -->
-                    {% comment %} <div class="">
-                        <button onclick="toggleAccordion(2)"
+                    <div class="">
+                        <button onclick="toggleAccordion(3)"
                                 class="w-full flex justify-between items-center px-2 xl:px-4 py-4 text-gray-800 dark:text-gray-100">
                             <span>محدوده قیمت</span>
-                            <span id="icon-2" class="text-gray-800 dark:text-gray-100">
+                            <span id="icon-3" class="text-gray-800 dark:text-gray-100">
                             <svg class="size-4 transition-transform duration-300">
                                 <use href="#chevron-left"></use>
                             </svg>
                             </span>
                         </button>
 
-                        <div id="content-2" class="price-slider max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                        <div id="content-3" class="price-slider max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
                             <div class="pb-3 text-gray-700 dark:text-gray-300 w-full px-4">
                             <div class="wrapper mt-5">
                                 <div class="slider-bar">
                                 <div class="progress"></div>
                                 </div>
 
-                                <!-- همون کلاس‌های قبلی؛ فقط min/max و name تغییر کرده -->
+                                <!-- همون کلاس‌های قبلی؛ فقط min/max و name -->
                                 <div class="range-input">
                                 <input type="range" min="0" max="100000000" value="0"
                                         class="min-range" name="min_price_range" />
@@ -460,48 +460,7 @@
                             </div>
                             </div>
                         </div>
-                    </div> {% endcomment %}
-<!-- Accordion -->
-<div class="">
-  <button onclick="toggleAccordion(3)"
-          class="w-full flex justify-between items-center px-2 xl:px-4 py-4 text-gray-800 dark:text-gray-100">
-    <span>محدوده قیمت</span>
-    <span id="icon-3" class="text-gray-800 dark:text-gray-100">
-      <svg class="size-4 transition-transform duration-300">
-        <use href="#chevron-left"></use>
-      </svg>
-    </span>
-  </button>
-
-  <div id="content-3" class="price-slider max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
-    <div class="pb-3 text-gray-700 dark:text-gray-300 w-full px-4">
-      <div class="wrapper mt-5">
-        <div class="slider-bar">
-          <div class="progress"></div>
-        </div>
-
-        <!-- همون کلاس‌های قبلی؛ فقط min/max و name -->
-        <div class="range-input">
-          <input type="range" min="0" max="100000000" value="0"
-                 class="min-range" name="min_price_range" />
-          <input type="range" min="0" max="100000000" value="100000000"
-                 class="max-range" name="max_price_range" />
-        </div>
-
-        <div class="price-input mt-4 text-gray-800 dark:text-gray-500">
-          <div class="field justify-start">
-            <span class="text-sm font-DanaMedium mr-2">تومان</span>
-            <p class="min-input">0</p>
-          </div>
-          <div class="field justify-end">
-            <span class="text-sm font-DanaMedium mr-2">تومان</span>
-            <p class="max-input">100,000,000</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                    </div>
                     <!-- TOGGLE SWITCH -->
                     <div class="w-full justify-between flex items-center gap-x-3 px-2 xl:px-4 py-4" dir="ltr">
                         <label for="hs-valid-toggle-switch3" class="relative inline-block w-11 h-6 cursor-pointer">
@@ -978,250 +937,144 @@
         })();
     </script>
     <!--price slider-->
-    {% comment %} <script>
-            (function () {
-            const RANGE_MIN = 0;
-            const RANGE_MAX = 100000000;
-            const DELAY_MS  = 300;
-            const accKey    = `acc:${location.pathname}:2`;
+    <script>
+        (function () {
+        const RANGE_MIN = 0;
+        const RANGE_MAX = 100000000;
+        const DELAY_MS  = 300;
 
-            const content  = document.getElementById('content-2');
-            const iconSvg  = document.querySelector('#icon-2 svg');
-            const minRange = document.querySelector('.min-range[name="min_price_range"]');
-            const maxRange = document.querySelector('.max-range[name="max_price_range"]');
-            const minOut   = document.querySelector('.min-input');
-            const maxOut   = document.querySelector('.max-input');
-            const prog     = document.querySelector('.progress');
+        const content  = document.getElementById('content-3');
+        const iconWrap = document.getElementById('icon-3');
+        const iconSvg  = iconWrap ? iconWrap.querySelector('svg') : null;
 
-            const fmt = n => Number(n).toLocaleString('fa-IR');
+        // انتخاب‌ها را محدود به همین آکاردئون می‌کنیم تا با بقیه تداخل نداشته باشد
+        const minRange = content?.querySelector('.min-range[name="min_price_range"]');
+        const maxRange = content?.querySelector('.max-range[name="max_price_range"]');
+        const minOut   = content?.querySelector('.min-input');
+        const maxOut   = content?.querySelector('.max-input');
+        const prog     = content?.querySelector('.progress');
 
-            function openAcc() {
-                content.classList.remove('max-h-0');
-                content.dataset.open = '1';
-                content.style.maxHeight = '0px';
-                requestAnimationFrame(()=>{ content.style.maxHeight = content.scrollHeight + 'px'; });
-                iconSvg?.classList.add('rotate-90');
+        const fmt = n => Number(n).toLocaleString('fa-IR');
+        const isDefault = () => (+minRange.value === RANGE_MIN && +maxRange.value === RANGE_MAX);
+
+        function openAcc() {
+            if (!content) return;
+            content.dataset.open = '1';
+            content.classList.remove('max-h-0');
+            content.style.maxHeight = '0px';
+            requestAnimationFrame(() => {
+            content.style.maxHeight = content.scrollHeight + 'px';
+            });
+            iconSvg?.classList.add('rotate-90');
+        }
+        function closeAcc() {
+            if (!content) return;
+            content.dataset.open = '0';
+            iconSvg?.classList.remove('rotate-90');
+            content.style.maxHeight = '0px';
+            content.classList.add('max-h-0');
+        }
+
+        function updateUI() {
+            const a = +minRange.value, b = +maxRange.value;
+            if (minOut) minOut.textContent = fmt(a);
+            if (maxOut) maxOut.textContent = fmt(b);
+            if (prog) {
+            const left  = ((a - RANGE_MIN) / (RANGE_MAX - RANGE_MIN)) * 100;
+            const right = 100 - ((b - RANGE_MIN) / (RANGE_MAX - RANGE_MIN)) * 100;
+            prog.style.left  = left + '%';
+            prog.style.right = right + '%';
             }
-            function closeAcc() {
-                content.dataset.open = '0';
-                iconSvg?.classList.remove('rotate-90');
-                content.style.maxHeight = '0px';
-                content.classList.add('max-h-0');
-            }
+        }
+        function normalize(which) {
+            const a = +minRange.value, b = +maxRange.value;
+            if (a > b) { if (which === 'min') maxRange.value = a; else minRange.value = b; }
+        }
 
-            function updateUI() {
-                const a = +minRange.value, b = +maxRange.value;
-                if (minOut) minOut.textContent = fmt(a);
-                if (maxOut) maxOut.textContent = fmt(b);
-                if (prog) {
-                const left  = ((a - RANGE_MIN) / (RANGE_MAX - RANGE_MIN)) * 100;
-                const right = 100 - ((b - RANGE_MIN) / (RANGE_MAX - RANGE_MIN)) * 100;
-                prog.style.left  = left + '%';
-                prog.style.right = right + '%';
-                }
-            }
-            function normalize(which){
-                const a = +minRange.value, b = +maxRange.value;
-                if (a > b) { if (which === 'min') maxRange.value = a; else minRange.value = b; }
-            }
-            function isDefault(a, b, params) {
-                const noParams = !(params.has('min_price_range') || params.has('max_price_range'));
-                const atBounds = (a === RANGE_MIN && b === RANGE_MAX);
-                return noParams || atBounds;
-            }
+        // مقداردهی اولیه بر اساس URL: اگر غیردیفالت بود، باز؛ اگر دیفالت/بدون پارامتر بود، بسته
+        function hydrate() {
+            const url = new URL(location.href); const q = url.searchParams;
+            let a = q.has('min_price_range') ? +q.get('min_price_range') : RANGE_MIN;
+            let b = q.has('max_price_range') ? +q.get('max_price_range') : RANGE_MAX;
+            a = Math.max(RANGE_MIN, Math.min(a, RANGE_MAX));
+            b = Math.max(RANGE_MIN, Math.min(b, RANGE_MAX));
+            if (a > b) [a, b] = [b, a];
 
-            function hydrate() {
-                const p = new URL(location.href).searchParams;
-                let a = p.has('min_price_range') ? +p.get('min_price_range') : RANGE_MIN;
-                let b = p.has('max_price_range') ? +p.get('max_price_range') : RANGE_MAX;
-                a = Math.max(RANGE_MIN, Math.min(a, RANGE_MAX));
-                b = Math.max(RANGE_MIN, Math.min(b, RANGE_MAX));
-                if (a > b) [a, b] = [b, a];
+            minRange.value = a; maxRange.value = b; updateUI();
 
-                minRange.value = a;
-                maxRange.value = b;
-                updateUI();
+            if (a !== RANGE_MIN || b !== RANGE_MAX) openAcc();
+            else                                     closeAcc();
+        }
 
-                const shouldOpen = localStorage.getItem(accKey) === '1' && !isDefault(a, b, p);
-                if (shouldOpen) openAcc();
-                else { closeAcc(); localStorage.removeItem(accKey); } // اگر پیش‌فرضه، حتماً بسته و فلگ پاک
-            }
+        let tId;
+        function navigateDebounced() {
+            clearTimeout(tId);
+            tId = setTimeout(() => {
+            const a = +minRange.value, b = +maxRange.value;
+            const url = new URL(location.href); const q = url.searchParams;
 
-            let tId;
-            function navigateDebounced() {
-                clearTimeout(tId);
-                tId = setTimeout(() => {
-                const a = +minRange.value, b = +maxRange.value;
-                const url = new URL(location.href);
-                const q = url.searchParams;
-
-                // فقط اگر با پیش‌فرض فرق داشت فلگ رو نگه دار
-                if (a !== RANGE_MIN || b !== RANGE_MAX) localStorage.setItem(accKey, '1');
-                else localStorage.removeItem(accKey);
-
-                q.set('min_price_range', a);
-                q.set('max_price_range', b);
+            if (a === RANGE_MIN && b === RANGE_MAX) {
+                // دیفالت: پارامترها حذف شود و آکاردئون بسته
+                q.delete('min_price_range'); q.delete('max_price_range');
                 q.delete('page');
                 url.search = q.toString();
-                location.assign(url.toString());
-                }, DELAY_MS);
+                closeAcc();
+            } else {
+                // غیردیفالت: پارامترها ست شوند و آکاردئون باز
+                q.set('min_price_range', a); q.set('max_price_range', b);
+                q.delete('page');
+                url.search = q.toString();
+                openAcc();
+            }
+            location.assign(url.toString());
+            }, DELAY_MS);
+        }
+
+        // اکسپورت یک toggleAccordion که قانون «فقط وقتی استفاده شده باز شود» را رعایت کند
+        window.toggleAccordion = function (id) {
+            if (id !== 3) {
+            // اگر جای دیگری toggleAccordion عمومی داری، این شاخه را مطابق همان بنویس
+            const panel = document.getElementById('content-' + id);
+            const icon  = document.getElementById('icon-' + id)?.querySelector('svg');
+            if (!panel) return;
+            const isOpen = panel.dataset.open === '1' || (panel.style.maxHeight && panel.style.maxHeight !== '0px');
+            if (isOpen) {
+                panel.dataset.open = '0'; panel.style.maxHeight = '0px'; panel.classList.add('max-h-0'); icon?.classList.remove('rotate-90');
+            } else {
+                panel.dataset.open = '1'; panel.classList.remove('max-h-0'); panel.style.maxHeight = '0px';
+                requestAnimationFrame(()=> panel.style.maxHeight = panel.scrollHeight + 'px'); icon?.classList.add('rotate-90');
+            }
+            return;
             }
 
-            if (minRange && maxRange && content) {
-                minRange.addEventListener('input', ()=>{ normalize('min'); updateUI(); });
-                maxRange.addEventListener('input', ()=>{ normalize('max'); updateUI(); });
+            // برای آکاردئون قیمت: اگر دیفالت است، اجازه‌ی باز شدن ندارد
+            if (isDefault()) return; // «فقط وقتی استفاده شده باز باشه»
+            // اگر غیردیفالت است، اجازه‌ی باز/بسته کردن دستی
+            if (content.dataset.open === '1') closeAcc(); else openAcc();
+        };
 
-                ['change','pointerup','keyup'].forEach(ev=>{
-                minRange.addEventListener(ev, ()=>{ normalize('min'); updateUI(); navigateDebounced(); });
-                maxRange.addEventListener(ev, ()=>{ normalize('max'); updateUI(); navigateDebounced(); });
-                });
+        if (minRange && maxRange && content) {
+            // تضمین مقدار اولیه ورودی‌ها
+            if (!minRange.value) minRange.value = RANGE_MIN;
+            if (!maxRange.value) maxRange.value = RANGE_MAX;
 
-                hydrate();
-                window.addEventListener('resize', ()=> {
-                if (content.dataset.open === '1') content.style.maxHeight = content.scrollHeight + 'px';
-                updateUI();
-                });
-            }
-            })();
-    </script> {% endcomment %}
-<script>
-(function () {
-  const RANGE_MIN = 0;
-  const RANGE_MAX = 100000000;
-  const DELAY_MS  = 300;
+            minRange.addEventListener('input', () => { normalize('min'); updateUI(); });
+            maxRange.addEventListener('input', () => { normalize('max'); updateUI(); });
 
-  const content  = document.getElementById('content-3');
-  const iconWrap = document.getElementById('icon-3');
-  const iconSvg  = iconWrap ? iconWrap.querySelector('svg') : null;
+            ['change','pointerup','keyup'].forEach(ev => {
+            minRange.addEventListener(ev, () => { normalize('min'); updateUI(); navigateDebounced(); });
+            maxRange.addEventListener(ev, () => { normalize('max'); updateUI(); navigateDebounced(); });
+            });
 
-  // انتخاب‌ها را محدود به همین آکاردئون می‌کنیم تا با بقیه تداخل نداشته باشد
-  const minRange = content?.querySelector('.min-range[name="min_price_range"]');
-  const maxRange = content?.querySelector('.max-range[name="max_price_range"]');
-  const minOut   = content?.querySelector('.min-input');
-  const maxOut   = content?.querySelector('.max-input');
-  const prog     = content?.querySelector('.progress');
+            hydrate();
 
-  const fmt = n => Number(n).toLocaleString('fa-IR');
-  const isDefault = () => (+minRange.value === RANGE_MIN && +maxRange.value === RANGE_MAX);
-
-  function openAcc() {
-    if (!content) return;
-    content.dataset.open = '1';
-    content.classList.remove('max-h-0');
-    content.style.maxHeight = '0px';
-    requestAnimationFrame(() => {
-      content.style.maxHeight = content.scrollHeight + 'px';
-    });
-    iconSvg?.classList.add('rotate-90');
-  }
-  function closeAcc() {
-    if (!content) return;
-    content.dataset.open = '0';
-    iconSvg?.classList.remove('rotate-90');
-    content.style.maxHeight = '0px';
-    content.classList.add('max-h-0');
-  }
-
-  function updateUI() {
-    const a = +minRange.value, b = +maxRange.value;
-    if (minOut) minOut.textContent = fmt(a);
-    if (maxOut) maxOut.textContent = fmt(b);
-    if (prog) {
-      const left  = ((a - RANGE_MIN) / (RANGE_MAX - RANGE_MIN)) * 100;
-      const right = 100 - ((b - RANGE_MIN) / (RANGE_MAX - RANGE_MIN)) * 100;
-      prog.style.left  = left + '%';
-      prog.style.right = right + '%';
-    }
-  }
-  function normalize(which) {
-    const a = +minRange.value, b = +maxRange.value;
-    if (a > b) { if (which === 'min') maxRange.value = a; else minRange.value = b; }
-  }
-
-  // مقداردهی اولیه بر اساس URL: اگر غیردیفالت بود، باز؛ اگر دیفالت/بدون پارامتر بود، بسته
-  function hydrate() {
-    const url = new URL(location.href); const q = url.searchParams;
-    let a = q.has('min_price_range') ? +q.get('min_price_range') : RANGE_MIN;
-    let b = q.has('max_price_range') ? +q.get('max_price_range') : RANGE_MAX;
-    a = Math.max(RANGE_MIN, Math.min(a, RANGE_MAX));
-    b = Math.max(RANGE_MIN, Math.min(b, RANGE_MAX));
-    if (a > b) [a, b] = [b, a];
-
-    minRange.value = a; maxRange.value = b; updateUI();
-
-    if (a !== RANGE_MIN || b !== RANGE_MAX) openAcc();
-    else                                     closeAcc();
-  }
-
-  let tId;
-  function navigateDebounced() {
-    clearTimeout(tId);
-    tId = setTimeout(() => {
-      const a = +minRange.value, b = +maxRange.value;
-      const url = new URL(location.href); const q = url.searchParams;
-
-      if (a === RANGE_MIN && b === RANGE_MAX) {
-        // دیفالت: پارامترها حذف شود و آکاردئون بسته
-        q.delete('min_price_range'); q.delete('max_price_range');
-        q.delete('page');
-        url.search = q.toString();
-        closeAcc();
-      } else {
-        // غیردیفالت: پارامترها ست شوند و آکاردئون باز
-        q.set('min_price_range', a); q.set('max_price_range', b);
-        q.delete('page');
-        url.search = q.toString();
-        openAcc();
-      }
-      location.assign(url.toString());
-    }, DELAY_MS);
-  }
-
-  // اکسپورت یک toggleAccordion که قانون «فقط وقتی استفاده شده باز شود» را رعایت کند
-  window.toggleAccordion = function (id) {
-    if (id !== 3) {
-      // اگر جای دیگری toggleAccordion عمومی داری، این شاخه را مطابق همان بنویس
-      const panel = document.getElementById('content-' + id);
-      const icon  = document.getElementById('icon-' + id)?.querySelector('svg');
-      if (!panel) return;
-      const isOpen = panel.dataset.open === '1' || (panel.style.maxHeight && panel.style.maxHeight !== '0px');
-      if (isOpen) {
-        panel.dataset.open = '0'; panel.style.maxHeight = '0px'; panel.classList.add('max-h-0'); icon?.classList.remove('rotate-90');
-      } else {
-        panel.dataset.open = '1'; panel.classList.remove('max-h-0'); panel.style.maxHeight = '0px';
-        requestAnimationFrame(()=> panel.style.maxHeight = panel.scrollHeight + 'px'); icon?.classList.add('rotate-90');
-      }
-      return;
-    }
-
-    // برای آکاردئون قیمت: اگر دیفالت است، اجازه‌ی باز شدن ندارد
-    if (isDefault()) return; // «فقط وقتی استفاده شده باز باشه»
-    // اگر غیردیفالت است، اجازه‌ی باز/بسته کردن دستی
-    if (content.dataset.open === '1') closeAcc(); else openAcc();
-  };
-
-  if (minRange && maxRange && content) {
-    // تضمین مقدار اولیه ورودی‌ها
-    if (!minRange.value) minRange.value = RANGE_MIN;
-    if (!maxRange.value) maxRange.value = RANGE_MAX;
-
-    minRange.addEventListener('input', () => { normalize('min'); updateUI(); });
-    maxRange.addEventListener('input', () => { normalize('max'); updateUI(); });
-
-    ['change','pointerup','keyup'].forEach(ev => {
-      minRange.addEventListener(ev, () => { normalize('min'); updateUI(); navigateDebounced(); });
-      maxRange.addEventListener(ev, () => { normalize('max'); updateUI(); navigateDebounced(); });
-    });
-
-    hydrate();
-
-    window.addEventListener('resize', () => {
-      if (content.dataset.open === '1') content.style.maxHeight = content.scrollHeight + 'px';
-      updateUI();
-    });
-  }
-})();
-</script>
+            window.addEventListener('resize', () => {
+            if (content.dataset.open === '1') content.style.maxHeight = content.scrollHeight + 'px';
+            updateUI();
+            });
+        }
+        })();
+    </script>
 
     <!--sort-->
     <script>
