@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from products.models import Product
 from articles.models import Article
+from banners.models import *
 
 def home_page(request):
 
@@ -8,6 +9,8 @@ def home_page(request):
     products = Product.objects.all()
 
     articles = Article.objects.all()
+
+    banners = Banner.objects.select_related('brand', 'category', 'product').order_by('-created_at')
 
     # ----- special sells ----- #
 
@@ -18,6 +21,7 @@ def home_page(request):
     popular_articles = articles.order_by('-views')
     
     context = {
+        'banners' : banners,
         'products' : products,
         'articles' : articles,
         'only_discounted' : only_discounted,
