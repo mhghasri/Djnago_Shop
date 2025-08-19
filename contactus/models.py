@@ -1,4 +1,5 @@
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 
 # ------------------- Models ------------------- #
 
@@ -9,7 +10,8 @@ class AboutUs(models.Model):
     number = models.CharField(max_length=11)
     email = models.EmailField(max_length=254)
     adress = models.TextField(blank=True)
-    about_us = models.TextField(blank=True)
+    about_us = CKEditor5Field(config_name="default")
+    short_about_us = models.TextField(blank=True)
 
     def __str__(self):
         return f"About us | {self.name}"
