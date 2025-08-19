@@ -7,7 +7,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>قالب فروشگاهی کارین</title>
+    <title>قالب فروشگاهی بلو</title>
     <link rel="stylesheet" href="{% static 'styles/app.css' %}">
     <!-- link -->
     <link rel="stylesheet" href="{% static 'swiper/swiper.css' %}">
@@ -47,7 +47,7 @@
                         <input
                             type="text"
                             name="q"
-                            placeholder="جستجو در کارین..."
+                            placeholder="جستجو در بلو..."
                             class="bg-transparent outline-none flex-1"
                         >
                         {% for key, value in request.GET.items %}
@@ -129,12 +129,13 @@
                     </div>
                 </div>
                 <!-- Logo -->
-                <a href="{% url 'index' %}" class="flex flex-col text-center ml-20">
-                    <span class="font-MorabbaMedium text-4xl flex items-center">
-                        <span class="text-blue-500">کارین</span> شاپ
+                <a href="{% url 'index' %}" class="flex flex-col items-center text-center ml-20">
+                    <span class="font-MorabbaMedium text-4xl flex items-center justify-center">
+                        <span class="text-blue-500">بلو</span> شاپ
                     </span>
-                    <p class="font-DanaMedium text-gray-400"> خرید موبایل و لپ‌تاپ</p>
+                    <p class="font-DanaMedium text-gray-400">خرید کالای دیجیتال</p>
                 </a>
+
                 <!--  Action -->
                 <div class="flex items-center gap-x-3">
                     <!-- LOGIN -->
@@ -367,28 +368,25 @@
                                </a>
                                 <ul class="megamenu_left-item active">
                                    <div class="megamenu_left-menu">
-                                    <h2 class="megamenu_left-title">برندهای مختلف :</h2>
-                                    <li>
-                                        <a href="{% url 'products' %}">گوشی آیفون</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'products' %}">گوشی سامسونگ</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'products' %}">گوشی هواووی</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'products' %}">گوشی شیامی</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'products' %}">گوشی نوکیا</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'products' %}">گوشی آنر</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'products' %}">گوشی آیفون</a>
-                                    </li>
+                                        <h2 class="megamenu_left-title">برندهای مختلف :</h2>
+                                        <li>
+                                            <a href="{% url 'products' %}?brand=آیفون">گوشی آیفون</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'products' %}?brand=سامسونگ">گوشی سامسونگ</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'products' %}?brand=هواووی">گوشی هواووی</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'products' %}?brand=شیامی">گوشی شیامی</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'products' %}?brand=نوکیا">گوشی نوکیا</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'products' %}?brand=آنر">گوشی آنر</a>
+                                        </li>
                                    </div>
                                    <div class="megamenu_left-menu">
                                     <h2 class="megamenu_left-title">گوشی بر اساس قیمت</h2>
@@ -415,23 +413,23 @@
                                 <ul class="megamenu_left-item ">
                                     <div class="megamenu_left-menu">
                                         <h2 class="megamenu_left-title">برندهای مختلف :</h2>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ اپل (MacBook)</a></li>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ ایسوس</a></li>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ لنوو</a></li>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ اچ‌پی</a></li>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ دل</a></li>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ ام‌اس‌آی</a></li>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ ایسر</a></li>
+                                        <li><a href="{% url 'products' %}?brand=مک_بوک">لپ‌تاپ اپل (MacBook)</a></li>
+                                        <li><a href="{% url 'products' %}?brand=ایسوس">لپ‌تاپ ایسوس</a></li>
+                                        <li><a href="{% url 'products' %}?brand=لنوو">لپ‌تاپ لنوو</a></li>
+                                        <li><a href="{% url 'products' %}?brand=اچ‌پی">لپ‌تاپ اچ‌پی</a></li>
+                                        <li><a href="{% url 'products' %}?brand=دل">لپ‌تاپ دل</a></li>
+                                        <li><a href="{% url 'products' %}?brand=ام‌اس‌آی">لپ‌تاپ ام‌اس‌آی</a></li>
+                                        <li><a href="{% url 'products' %}?brand=ایسر">لپ‌تاپ ایسر</a></li>
                                     </div>
                                     
                                     <div class="megamenu_left-menu">
                                         <h2 class="megamenu_left-title">لپ‌تاپ بر اساس قیمت</h2>
                                         <li><a href="{% url 'products' %}">لپ‌تاپ اقتصادی</a></li>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ تا ۱۰ میلیون تومان</a></li>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ تا ۲۰ میلیون تومان</a></li>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ تا ۳۰ میلیون تومان</a></li>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ تا ۵۰ میلیون تومان</a></li>
-                                        <li><a href="{% url 'products' %}">لپ‌تاپ بالای ۵۰ میلیون تومان</a></li>
+                                        <li><a href="{% url 'products' %}?min_price_range=0&max_price_range=10000000&category=لپ_تاپ">لپ‌تاپ تا ۱۰ میلیون تومان</a></li>
+                                        <li><a href="{% url 'products' %}?min_price_range=0&max_price_range=20000000&category=لپ_تاپ">لپ‌تاپ تا ۲۰ میلیون تومان</a></li>
+                                        <li><a href="{% url 'products' %}?min_price_range=0&max_price_range=30000000&category=لپ_تاپ">لپ‌تاپ تا ۳۰ میلیون تومان</a></li>
+                                        <li><a href="{% url 'products' %}?min_price_range=0&max_price_range=50000000&category=لپ_تاپ">لپ‌تاپ تا ۵۰ میلیون تومان</a></li>
+                                        <li><a href="{% url 'products' %}?min_price_range=50000000&max_price_range=100000000&category=لپ_تاپ">لپ‌تاپ بالای ۵۰ میلیون تومان</a></li>
                                     </div>
                                     
                                     <div class="megamenu_left-menu">
@@ -628,7 +626,7 @@
                     <!--  MENU MOBILE header -->
                     <div class="flex w-full items-center justify-between border-b-normal pb-4">
                         <a href="{% url 'index' %}" class="text-xl font-MorabbaMedium">
-                            <span class="text-blue-500">کارین</span> شاپ
+                            <span class="text-blue-500">بلو</span> شاپ
                         </a>
                         <button class="close-menu-mobile">
                             <svg class="size-5 text-gray-500 dark:text-gray-200">
@@ -957,7 +955,7 @@
                 <!-- Logo -->
                 <a href="{% url 'index' %}" class="flex flex-col text-center">
                     <span class="font-MorabbaMedium text-3xl flex items-center">
-                        <span class="text-blue-500">کارین</span> شاپ
+                        <span class="text-blue-500">بلو</span> شاپ
                     </span>
                 </a>
                 <!-- Toggle theme -->
@@ -975,7 +973,7 @@
                 <svg class=" size-6">
                     <use href="#search" />
                 </svg>
-                <p>جستجو در <span class="font-MorabbaMedium">کارین شاپ</span></p>
+                <p>جستجو در <span class="font-MorabbaMedium">بلو شاپ</span></p>
             </button>
             <!-- Search Moadal -->
             <div class="mobile_search-modal">
@@ -1098,7 +1096,7 @@
         <div class=" relative w-full bg-gray-900 dark:bg-gray-800 text-white rounded-2xl p-4 lg:p-9">
             <div class="flex items-start flex-col gap-x-7 lg:gap-x-10 gap-y-10 lg:flex-row flex-wrap">
                 <div class="flex-[2] w-full">
-                    <h2 class="footer_title">درباره کارین شاپ</h2>
+                    <h2 class="footer_title">درباره بلو شاپ</h2>
                     <p class="leading-8 text-gray-400 mb-5">در فروشگاه آنلاین ما، بهترین مدل‌های موبایل و لپ‌تاپ از
                         برندهای معتبر جهانی را با کیفیت بالا و قیمتی مناسب برای شما فراهم آورده‌ایم. با انتخاب محصولات
                         ما، تجربه‌ای حرفه‌ای و لذت‌بخش از فناوری را در خانه یا محل کار داشته باشید.
@@ -1202,7 +1200,7 @@
             <div
                 class="w-full rounded-xl bg-gray-950 dark:bg-gray-900 flex flex-col md:flex-row gap-y-4 items-center justify-between p-4 md:p-6 mt-6">
                 <a href="#" class="text-3xl font-MorabbaMedium">
-                    <span class="text-blue-500">کارین</span> شاپ
+                    <span class="text-blue-500">بلو</span> شاپ
                 </a>
                 <div
                     class="bg-gray-900 dark:bg-gray-800 p-1.5 rounded-xl w-72 lg:w-[350px] flex items-center justify-between">
