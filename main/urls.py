@@ -8,6 +8,7 @@ urlpatterns = [
     path('', home_page, name='index'),
     path('', include('products.urls')),
     path('', include('articles.urls')),
+    path('', include('contactus.urls'))
 ]
 
 if settings.DEBUG:
