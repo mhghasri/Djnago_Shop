@@ -17,6 +17,7 @@ def product_gallery_path(instance, filename):
     ext = os.path.splitext(filename)[1]
     random_string = ''.join(random.choices(string.ascii_letters, k=10))
     return f"products/gallery/django-image-{random_string}{ext}"
+
 # ------------------------ Models ------------------------ #
 
 # --------- Brand Model --------- #

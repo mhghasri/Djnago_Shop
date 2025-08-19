@@ -5,9 +5,11 @@ from django.conf.urls.static import static
 from . views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
     path('', home_page, name='index'),
     path('', include('products.urls')),
     path('', include('articles.urls')),
+    path('', include('contactus.urls'))
 ]
 
 if settings.DEBUG:
