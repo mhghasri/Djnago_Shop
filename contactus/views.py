@@ -1,13 +1,19 @@
 from django.shortcuts import render
 from . models import *
 
+# -------------- contact_us-------------- #
+
 def contact_us(request):
 
-    context = {
+    about_us = AboutUs.objects.first()
 
+    context = {
+        'about_us' : about_us,
     }
 
     return render(request, 'contact_us.html', context)
+
+# -------------- about_us -------------- #
 
 def about_us(request):
 
@@ -31,3 +37,15 @@ def about_us(request):
     }
 
     return render(request, 'about_us.html', context)
+
+# -------------- popular_question -------------- #
+
+def questions(request):
+
+    questions = MostQuestion.objects.all()
+
+    context = {
+        'questions' : questions,
+    }
+
+    return render(request, 'questions.html', context)

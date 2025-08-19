@@ -19,17 +19,17 @@ class AboutUs(models.Model):
     class Meta:
         verbose_name_plural = "About us List"
 
-# --------------- AskUs --------------- #
+# --------------- MostQuestion --------------- #
 
-class AskUs(models.Model):
-    title = models.CharField(max_length=100)
+class MostQuestion(models.Model):
+    title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
 
     def __str__(self):
-        return f"About us | {self.title}"
+        return f"Question | {self.title}"
     
     class Meta:
-        verbose_name_plural = "Ask us List"
+        verbose_name_plural = "Question List"
 
 # --------------- link --------------- #
 

@@ -21,5 +21,5 @@ class AboutUsAdmin(admin.ModelAdmin):
 
 # ------------------- Register ------------------- #
 admin.site.register(AboutUs, AboutUsAdmin)
-admin.site.register(AskUs)
+admin.site.register(MostQuestion)
 admin.site.register(Link)
