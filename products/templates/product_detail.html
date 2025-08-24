@@ -444,46 +444,27 @@
                         </span>
                         </div>
                     </div>
-
                     <!-- COLOR -->
                     <div class="flex flex-col gap-y-4">
                         <h1 id="color-title" class="font-DanaDemiBold text-lg color-title dark:text-gray-200">رنگ :</h1>
                         <div class="flex items-center gap-x-3 child:rounded-full child:size-9 child:p-1">
-                        {% for c in colors %}
-                            {% if c.color == "m" %}
-                            <button type="button" class="color-select-btn {% if forloop.first %}is-default{% endif %} ring-1 ring-gray-400 transition-all duration-300 ease-in-out"
-                                    data-color="m" data-price="{{ c.final_price }}">
-                                <span class="bg-black w-full h-full rounded-full flex"></span>
+                            {% for c in colors %}
+                            <button
+                                type="button"
+                                class="color-select-btn {% if forloop.first %}is-default{% endif %} ring-1 ring-gray-400 transition-all duration-300 ease-in-out"
+                                data-price="{{ c.final_price }}"
+                                data-color-name="{{ c.color_name }}"
+                                data-color-hex="{{ c.color_hex }}"
+                                aria-label="{{ c.color_name }}"
+                            >
+                                <span
+                                class="w-full h-full rounded-full flex {% if c.color_hex|lower == '#ffffff' or c.color_hex|lower == '#fff' %}app-border{% endif %}"
+                                style="background-color: {{ c.color_hex }};"
+                                ></span>
                             </button>
-                            {% endif %}
-                            {% if c.color == "w" %}
-                            <button type="button" class="color-select-btn {% if forloop.first %}is-default{% endif %} ring-1 ring-gray-400 transition-all duration-300 ease-in-out"
-                                    data-color="w" data-price="{{ c.final_price }}">
-                                <span class="bg-white app-border w-full h-full rounded-full flex"></span>
-                            </button>
-                            {% endif %}
-                            {% if c.color == "g" %}
-                            <button type="button" class="color-select-btn {% if forloop.first %}is-default{% endif %} ring-1 ring-gray-400 transition-all duration-300 ease-in-out"
-                                    data-color="g" data-price="{{ c.final_price }}">
-                                <span class="bg-green-400 w-full h-full rounded-full flex"></span>
-                            </button>
-                            {% endif %}
-                            {% if c.color == "b" %}
-                            <button type="button" class="color-select-btn {% if forloop.first %}is-default{% endif %} ring-1 ring-gray-400 transition-all duration-300 ease-in-out"
-                                    data-color="b" data-price="{{ c.final_price }}">
-                                <span class="bg-blue-500 w-full h-full rounded-full flex"></span>
-                            </button>
-                            {% endif %}
-                            {% if c.color == "r" %}
-                            <button type="button" class="color-select-btn {% if forloop.first %}is-default{% endif %} ring-1 ring-gray-400 transition-all duration-300 ease-in-out"
-                                    data-color="r" data-price="{{ c.final_price }}">
-                                <span class="bg-red-500 w-full h-full rounded-full flex"></span>
-                            </button>
-                            {% endif %}
-                        {% endfor %}
+                            {% endfor %}
                         </div>
                     </div>
-
                     <!-- Features Box  -->
                     <div class="w-full flex flex-col gap-y-4">
                         <h1 class="font-DanaDemiBold text-lg dark:text-gray-200">ویژگی‌ها</h1>
@@ -1234,13 +1215,12 @@
 {% block js %}
     <script src="{% static 'scripts/productDetails.js' %}"></script>
     <script src="{% static 'scripts/slider.js' %}"></script>
+    <!--colors-->
     <script>
         (function () {
         const priceEl = document.getElementById('price-amount');
         const titleEl = document.getElementById('color-title');
         const btns = document.querySelectorAll('.color-select-btn');
-
-        const colorNamesFa = { m: 'مشکی', w: 'سفید', g: 'سبز', b: 'آبی', r: 'قرمز' };
 
         function formatToman(n) {
             const num = parseInt(n, 10) || 0;
@@ -1248,29 +1228,34 @@
         }
 
         function selectBtn(active) {
-            btns.forEach(b => b.classList.remove('ring-4', 'ring-blue-400'));
-            btns.forEach(b => b.classList.add('ring-1', 'ring-gray-400'));
+            btns.forEach(b => {
+            b.classList.remove('ring-4', 'ring-blue-400');
+            b.classList.add('ring-1', 'ring-gray-400');
+            b.setAttribute('aria-pressed', 'false');
+            });
             active.classList.remove('ring-1', 'ring-gray-400');
             active.classList.add('ring-4', 'ring-blue-400');
+            active.setAttribute('aria-pressed', 'true');
         }
 
         function updateFromBtn(btn) {
             const price = btn.dataset.price;
-            const code  = btn.dataset.color;
+            const colorName = btn.dataset.colorName;
+            // const colorHex = btn.dataset.colorHex;  // اگه بخوای جایی نمایش بدی، در دسترسه
+
             if (priceEl && price) priceEl.textContent = formatToman(price);
-            if (titleEl && code) titleEl.textContent = `رنگ : ${colorNamesFa[code] || code}`;
+            if (titleEl) titleEl.textContent = `رنگ : ${colorName || ''}`;
             selectBtn(btn);
         }
 
+        // رویداد کلیک برای هر دکمه
         btns.forEach(btn => {
             btn.addEventListener('click', () => updateFromBtn(btn));
         });
 
-        // انتخاب خودکار اولین رنگ
+        // انتخاب خودکار اولین دکمه پیش‌فرض
         const defaultBtn = document.querySelector('.color-select-btn.is-default') || btns[0];
-        if (defaultBtn) {
-            updateFromBtn(defaultBtn);
-        }
+        if (defaultBtn) updateFromBtn(defaultBtn);
         })();
     </script>
 

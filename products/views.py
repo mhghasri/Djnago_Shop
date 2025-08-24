@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from . models import *
-from django.db.models import Q
+from django.db.models import Q, Min, Max
 from django.core.paginator import Paginator
 
 # ---------------------- products ---------------------- #
@@ -134,7 +134,7 @@ def product_detail(request, **kwargs):
 
     # for selected product
 
-    product = get_object_or_404(Product.objects.select_related('category', 'brand').prefetch_related("attribute", "gallery"), pk=kwargs["pk"])
+    product = get_object_or_404(Product.objects.select_related('category', 'brand').prefetch_related("attribute", "gallery", "colors"), pk=kwargs["pk"])
     
     # filter special sells product
 

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.db.models import Q, Min, Max        # for aggrigate price
 import os
 import random
 import string
@@ -110,23 +111,23 @@ class ProductImage(models.Model):
 
 # -- colors -- #
 
-colors = [
-    ("r", "قرمز"),
-    ("b", "آبی"),
-    ("m", "مشکی"),
-    ("w", "سفید"),
-    ("g", "سبز"),
-]
-
 class ProductColor(models.Model):
-    color = models.CharField(max_length=2, choices=colors)
+    color_hex = models.CharField(max_length=10)
     price = models.IntegerField()
+    color_name = models.CharField(max_length=50)
+    final_price = models.IntegerField(default=0)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="colors")
 
-    @property #-> call to template
-    def final_price(self)->int:
-        final_price = int(self.price - (self.product.discount * self.price / 100))
-        return final_price
+    def save(self, *args, **kwargs):
+        self.final_price = int(self.price - (self.price * self.product.discount / 100))
+        super().save(*args, **kwargs)
+
+        min_price = self.product.colors.aggregate(min=Min('final_price'))['min']
+
+        if min_price != None and min_price != self.product.final_price:
+            self.product.price = self.price
+            self.product.final_price = min_price
+            self.product.save()
     
     def __str__(self):
         return f"Product | {self.product.title}"

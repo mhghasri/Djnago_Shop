@@ -20,7 +20,7 @@ class ImagesInline(admin.TabularInline):
 class ColorInline(admin.TabularInline):
     model = ProductColor
     extra = 0
-    fields = ['color', 'price']
+    fields = ['color_hex', 'color_name', 'price']
 
 # -------------------- AdminModel -------------------- #
 
@@ -60,7 +60,8 @@ class BrandAdmin(admin.ModelAdmin):
 class ProductColorAdmin(admin.ModelAdmin):
 
     fieldsets = [
-        ("Color", {'fields' : ('color', )}),
+        ("Color code", {'fields' : ('color_hex', )}),
+        ("color name", {'fields' : ('color_name', )}),
         ("Price", {'fields' : ('price', )}),
     ]
 
