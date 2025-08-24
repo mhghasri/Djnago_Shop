@@ -116,11 +116,7 @@ class ProductColor(models.Model):
     price = models.IntegerField()
     color_name = models.CharField(max_length=50)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="colors")
-
-    @property #-> like a signal for changing discount
-    def final_price(self)->int:
-        final_price = int(self.price - (self.product.discount * self.price / 100))
-        return final_price
+    final_price = models.IntegerField(default=0)
     
 
     def save(self, *args, **kwargs):
