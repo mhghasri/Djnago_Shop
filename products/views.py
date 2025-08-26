@@ -129,15 +129,15 @@ def product_detail(request, **kwargs):
 
     # for all products
 
-    products = Product.objects.select_related('category', 'brand')
+    products = Product.objects.select_related('brand')
 
     # for selected product
 
-    product = get_object_or_404(Product.objects.select_related('brand').prefetch_related("attribute", "gallery", "colors"), pk=kwargs["pk"])
+    product = get_object_or_404(Product.objects.select_related('brand').prefetch_related("attribute", "gallery", "colors", 'categories'), pk=kwargs["pk"])
     
     # filter special sells product
 
-    related_product = products.exclude(pk=product.id)      # except the selected product
+    related_product = products.filter(categories__slug=product.categories.last().slug).exclude(pk=product.id)     # except the selected product
 
     # filter discounted product
 
