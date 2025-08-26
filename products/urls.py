@@ -1,7 +1,19 @@
-from django.urls import path
+from django.urls import path, register_converter
 from . views import *
+
+class UnicodeSlugConverter:
+    regex = r'[-\w\u0600-\u06FF]+'
+
+    def to_python(self, value):
+        return value
+    
+    def to_url(self, value):
+        return value
+
+register_converter(UnicodeSlugConverter, 'uslug')
 
 urlpatterns = [
     path('products', products, name="products"),
+    path('products/category/<uslug:slug>', products, name="products_category"),
     path('product/<int:pk>/<slug:slug>', product_detail, name="product_details"),
 ]

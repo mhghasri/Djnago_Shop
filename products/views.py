@@ -5,15 +5,19 @@ from django.core.paginator import Paginator
 
 # ---------------------- products ---------------------- #
 
-def products(request):
+def products(request, slug=None):
 
     # ---------- query ---------- #
-    products = Product.objects.select_related('category')
-
-    category = Category.objects.all()
+    products = Product.objects.all()
 
     brand = Brand.objects.all()
 
+    # ---------- price range ---------- #
+
+    if slug:
+        category = get_object_or_404(Category, slug=slug)
+        products = products.filter(categories = category)
+    
     # ---------- price range ---------- #
 
     min_price_range = request.GET.get('min_price_range')
@@ -64,13 +68,6 @@ def products(request):
 
     else:
         products = products.order_by('-created_at')
-
-    # ---------- category ---------- #
-
-    category_params = request.GET.get('category')
-
-    if category_params:
-        products = products.filter(category__slug = category_params)        # filter by category
     
     # ---------- brand ---------- #
 
@@ -101,9 +98,6 @@ def products(request):
     # ---------- context ---------- #
 
     context = {
-
-        # category
-        'category' : category,
 
         # brand
         'brand' : brand,
