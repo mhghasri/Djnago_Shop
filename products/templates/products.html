@@ -1216,4 +1216,96 @@
             })();
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        // ====== فقط آکاردئون برند (id ها: content-2، icon-2، ظرف: #bra-filter) ======
+        const panel    = document.getElementById('content-2');
+        const iconWrap = document.getElementById('icon-2');
+        const container= document.getElementById('bra-filter');
+        const allBox   = document.getElementById('bra-all');
+
+        if (!panel || !container || !allBox) return;
+
+        // همه چک‌باکس‌های برند (فقط آن‌هایی که name="brand" دارند)
+        const boxes = Array.from(container.querySelectorAll('input[type="checkbox"][name="brand"]'));
+
+        // مقدار فعلی از URL
+        const params = new URLSearchParams(location.search);
+        const current = params.get('brand'); // یا null
+
+        // --- مقداردهی اولیه: تیک‌ها و باز/بسته بودن ---
+        let hasSelection = false;
+        if (current) {
+            boxes.forEach(b => b.checked = (b.value === current));
+            allBox.checked = false;
+            hasSelection = true;
+        } else {
+            boxes.forEach(b => b.checked = false);
+            allBox.checked = true;
+            hasSelection = false;
+        }
+
+        // فقط وقتی انتخاب داریم باز، در غیر این‌صورت بسته
+        if (hasSelection) {
+            panel.style.maxHeight = panel.scrollHeight + 'px';
+            panel.setAttribute('aria-expanded', 'true');
+            iconWrap?.firstElementChild?.classList.add('rotate-90');
+        } else {
+            panel.style.maxHeight = '0px';
+            panel.setAttribute('aria-expanded', 'false');
+            iconWrap?.firstElementChild?.classList.remove('rotate-90');
+        }
+
+        // --- اسکرول داخلی اگر بیش از 4 گزینه (به‌همراه "همه") ---
+        const totalItems = boxes.length + 1;
+        if (totalItems > 4) {
+            const sampleDiv = (boxes[0] || allBox).closest('div.inline-flex');
+            const itemH = sampleDiv ? sampleDiv.offsetHeight : 44;
+            container.style.overflowY = 'auto';
+            container.style.maxHeight = (itemH * 4) + 'px';
+        } else {
+            container.style.overflowY = '';
+            container.style.maxHeight = '';
+        }
+
+        // --- ناوبری: «همه برندها» → حذف پارامتر brand ---
+        allBox.addEventListener('change', () => {
+            if (allBox.checked) {
+            boxes.forEach(b => b.checked = false);
+            const p = new URLSearchParams(location.search);
+            p.delete('brand');
+            p.delete('page'); // ریست صفحه‌بندی
+            const q = p.toString();
+            location.assign(location.pathname + (q ? '?' + q : ''));
+            } else {
+            // همیشه یکی فعال بماند؛ اگر کاربر برداشت و چیزی انتخاب نشد، دوباره همه را فعال کن
+            if (!boxes.some(x => x.checked)) allBox.checked = true;
+            }
+        });
+
+        // --- ناوبری: هر برند → set ?brand=slug ---
+        boxes.forEach(b => b.addEventListener('change', () => {
+            if (b.checked) {
+            boxes.forEach(x => { if (x !== b) x.checked = false; });
+            allBox.checked = false;
+            const p = new URLSearchParams(location.search);
+            p.set('brand', b.value);
+            p.delete('page'); // ریست صفحه‌بندی
+            const q = p.toString();
+            location.assign(location.pathname + (q ? '?' + q : ''));
+            } else {
+            // اگر هیچ‌کدام تیک نبودند، برگرد به همه
+            if (!boxes.some(x => x.checked)) {
+                allBox.checked = true;
+                const p = new URLSearchParams(location.search);
+                p.delete('brand');
+                p.delete('page');
+                const q = p.toString();
+                location.assign(location.pathname + (q ? '?' + q : ''));
+            }
+            }
+        }));
+        });
+    </script>
+
 {% endblock js %}

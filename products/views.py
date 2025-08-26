@@ -137,7 +137,7 @@ def product_detail(request, **kwargs):
     
     # filter special sells product
 
-    related_product = products.filter(categories__slug=product.categories.last().slug).exclude(pk=product.id)     # except the selected product
+    related_product = products.filter(categories__slug=product.categories.last().slug).exclude(pk=product.id).order_by('-created_at')     # except the selected product
 
     # filter discounted product
 
