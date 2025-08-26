@@ -285,42 +285,42 @@
                         <div id="cat-filter" class="pb-3 text-gray-700 dark:text-gray-300 w-full flex flex-col gap-y-1.5">
 
                         <!-- همه دسته بندی ها -->
-<div class="inline-flex items-center mr-2.5 mt-1">
-    <label class="relative flex cursor-pointer items-center rounded-full p-3" for="cat-all" data-ripple-dark="true">
-        <input id="cat-all" type="checkbox"
-               data-href="{% url 'products' %}"
-               class="peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 shadow hover:shadow-md transition-all
-                      before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4
-                      before:rounded-full before:bg-slate-400 before:opacity-0 before:transition-opacity
-                      checked:border-blue-500 checked:bg-blue-500 checked:before:bg-slate-400 hover:before:opacity-10 dark:bg-gray-600 dark:checked:bg-blue-500" />
-        <span class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-            </svg>
-        </span>
-    </label>
-    <label class="cursor-pointer text-gray-800 dark:text-gray-400 mr-1" for="cat-all">همه دسته بندی ها</label>
-</div>
+                        <div class="inline-flex items-center mr-2.5 mt-1">
+                            <label class="relative flex cursor-pointer items-center rounded-full p-3" for="cat-all" data-ripple-dark="true">
+                                <input id="cat-all" type="checkbox"
+                                    data-href="{% url 'products' %}"
+                                    class="peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 shadow hover:shadow-md transition-all
+                                            before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4
+                                            before:rounded-full before:bg-slate-400 before:opacity-0 before:transition-opacity
+                                            checked:border-blue-500 checked:bg-blue-500 checked:before:bg-slate-400 hover:before:opacity-10 dark:bg-gray-600 dark:checked:bg-blue-500" />
+                                <span class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </span>
+                            </label>
+                            <label class="cursor-pointer text-gray-800 dark:text-gray-400 mr-1" for="cat-all">همه دسته بندی ها</label>
+                        </div>
 
-{# حلقه‌ی دسته‌بندی‌ها - بدون افزودن عنصر جدید، فقط data-href روی input #}
-{% for cat in category %}
-<div class="inline-flex items-center mr-2.5 mt-1">
-  <label class="relative flex cursor-pointer items-center rounded-full p-3" for="cat-{{ cat.id }}" data-ripple-dark="true">
-    <input id="cat-{{ cat.id }}" type="checkbox" name="category" value="{{ cat.slug }}"
-      data-href="{% url 'products_category' cat.slug %}"
-      class="peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 shadow hover:shadow-md transition-all
-             before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4
-             before:rounded-full before:bg-slate-400 before:opacity-0 before:transition-opacity
-             checked:border-blue-500 checked:bg-blue-500 checked:before:bg-slate-400 hover:before:opacity-10 dark:bg-gray-600 dark:checked:bg-blue-500" />
-    <span class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
-        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-      </svg>
-    </span>
-  </label>
-  <label class="cursor-pointer text-gray-800 dark:text-gray-400 mr-1" for="cat-{{ cat.id }}">{{ cat.name }}</label>
-</div>
-{% endfor %}
+                        {# حلقه‌ی دسته‌بندی‌ها - بدون افزودن عنصر جدید، فقط data-href روی input #}
+                        {% for cat in category %}
+                            <div class="inline-flex items-center mr-2.5 mt-1">
+                                <label class="relative flex cursor-pointer items-center rounded-full p-3" for="cat-{{ cat.id }}" data-ripple-dark="true">
+                                    <input id="cat-{{ cat.id }}" type="checkbox" name="category" value="{{ cat.slug }}"
+                                    data-href="{% url 'products_category' cat.slug %}"
+                                    class="peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 shadow hover:shadow-md transition-all
+                                            before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4
+                                            before:rounded-full before:bg-slate-400 before:opacity-0 before:transition-opacity
+                                            checked:border-blue-500 checked:bg-blue-500 checked:before:bg-slate-400 hover:before:opacity-10 dark:bg-gray-600 dark:checked:bg-blue-500" />
+                                    <span class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    </span>
+                                </label>
+                                <label class="cursor-pointer text-gray-800 dark:text-gray-400 mr-1" for="cat-{{ cat.id }}">{{ cat.name }}</label>
+                            </div>
+                        {% endfor %}
 
                         </div>
                     </div>
@@ -1112,112 +1112,109 @@
     </script>
     <!--filters category-->
     <script>
-// همون تابع باز/بستن دستی که قبلاً داشتی
-function toggleAccordion(id) {
-  const panel = document.getElementById('content-' + id);
-  const icon  = document.getElementById('icon-' + id);
-  if (!panel) return;
+        function toggleAccordion(id) {
+            const panel = document.getElementById('content-' + id);
+            const icon  = document.getElementById('icon-' + id);
+            if (!panel) return;
 
-  const isOpen = panel.style.maxHeight && panel.style.maxHeight !== '0px';
-  if (isOpen) {
-    panel.style.maxHeight = '0px';
-    if (icon) icon.firstElementChild?.classList.remove('rotate-90');
-    panel.setAttribute('aria-expanded', 'false');
-  } else {
-    panel.style.maxHeight = panel.scrollHeight + 'px';
-    if (icon) icon.firstElementChild?.classList.add('rotate-90');
-    panel.setAttribute('aria-expanded', 'true');
-  }
-}
+            const isOpen = panel.style.maxHeight && panel.style.maxHeight !== '0px';
+            if (isOpen) {
+                panel.style.maxHeight = '0px';
+                if (icon) icon.firstElementChild?.classList.remove('rotate-90');
+                panel.setAttribute('aria-expanded', 'false');
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + 'px';
+                if (icon) icon.firstElementChild?.classList.add('rotate-90');
+                panel.setAttribute('aria-expanded', 'true');
+            }
+            }
 
-document.addEventListener('DOMContentLoaded', function () {
-  // ===== فقط هندل دسته‌بندی در آکاردئون موجود =====
-  (function handleCategoryInAccordion() {
-    const accId     = 1;                          // همونی که برای content-1 / icon-1 داری
-    const panel     = document.getElementById('content-' + accId);
-    const icon      = document.getElementById('icon-' + accId);
-    const container = document.querySelector('#cat-filter'); // ظرف آیتم‌ها (موجود)
-    const allBox    = document.getElementById('cat-all');
+            document.addEventListener('DOMContentLoaded', function () {
+            // ===== فقط هندل دسته‌بندی در آکاردئون موجود =====
+            (function handleCategoryInAccordion() {
+                const accId     = 1;                          // همونی که برای content-1 / icon-1 داری
+                const panel     = document.getElementById('content-' + accId);
+                const icon      = document.getElementById('icon-' + accId);
+                const container = document.querySelector('#cat-filter'); // ظرف آیتم‌ها (موجود)
+                const allBox    = document.getElementById('cat-all');
 
-    if (!panel || !container || !allBox) return;
+                if (!panel || !container || !allBox) return;
 
-    // همه چک‌باکس‌های کتگوری (به‌جز «همه»)
-    const boxes = Array.from(
-      container.querySelectorAll('input[type="checkbox"][name="category"]')
-    ).filter(el => el !== allBox);
+                // همه چک‌باکس‌های کتگوری (به‌جز «همه»)
+                const boxes = Array.from(
+                container.querySelectorAll('input[type="checkbox"][name="category"]')
+                ).filter(el => el !== allBox);
 
-    // نرمال‌سازی مسیرها برای مقایسه
-    const norm = (u) => new URL(u, location.origin).pathname.replace(/\/+$/, '/');
-    const currentPath  = norm(location.href);
-    const productsPath = norm(allBox.dataset.href);
+                // نرمال‌سازی مسیرها برای مقایسه
+                const norm = (u) => new URL(u, location.origin).pathname.replace(/\/+$/, '/');
+                const currentPath  = norm(location.href);
+                const productsPath = norm(allBox.dataset.href);
 
-    // تعیین انتخاب فعلی بر اساس URL
-    let hasSelection = false;
-    boxes.forEach(b => {
-      const bp = norm(b.dataset.href || '');
-      const matched = bp && (bp === currentPath);
-      b.checked = matched;
-      hasSelection = hasSelection || matched;
-    });
-    // «همه» زمانی چک است که انتخاب دیگری نیست یا مسیر فعلی همان محصولات است
-    allBox.checked = !hasSelection || (currentPath === productsPath);
+                // تعیین انتخاب فعلی بر اساس URL
+                let hasSelection = false;
+                boxes.forEach(b => {
+                const bp = norm(b.dataset.href || '');
+                const matched = bp && (bp === currentPath);
+                b.checked = matched;
+                hasSelection = hasSelection || matched;
+                });
+                // «همه» زمانی چک است که انتخاب دیگری نیست یا مسیر فعلی همان محصولات است
+                allBox.checked = !hasSelection || (currentPath === productsPath);
 
-    // حالت اولیه آکاردئون:
-    // - اگر روی محصولات هستیم (بدون انتخاب) → بسته
-    // - اگر روی یک کتگوری هستیم → باز
-    if (hasSelection) {
-      panel.style.maxHeight = panel.scrollHeight + 'px';
-      panel.setAttribute('aria-expanded', 'true');
-      if (icon) icon.firstElementChild?.classList.add('rotate-90');
-    } else {
-      panel.style.maxHeight = '0px';
-      panel.setAttribute('aria-expanded', 'false');
-      if (icon) icon.firstElementChild?.classList.remove('rotate-90');
-    }
+                // حالت اولیه آکاردئون:
+                // - اگر روی محصولات هستیم (بدون انتخاب) → بسته
+                // - اگر روی یک کتگوری هستیم → باز
+                if (hasSelection) {
+                panel.style.maxHeight = panel.scrollHeight + 'px';
+                panel.setAttribute('aria-expanded', 'true');
+                if (icon) icon.firstElementChild?.classList.add('rotate-90');
+                } else {
+                panel.style.maxHeight = '0px';
+                panel.setAttribute('aria-expanded', 'false');
+                if (icon) icon.firstElementChild?.classList.remove('rotate-90');
+                }
 
-    // اگر تعداد آیتم‌ها > 4 → اسکرول داخلی ظرف آیتم‌ها
-    const totalItems = boxes.length + 1; // + گزینه «همه»
-    if (totalItems > 4) {
-      container.style.overflowY = 'auto';
-      // سعی می‌کنیم ارتفاع واقعی آیتم را بگیریم؛ اگر نشد، 44px
-      const sampleDiv = (boxes[0] || allBox)?.closest('div.inline-flex');
-      const itemH = sampleDiv ? sampleDiv.offsetHeight : 44;
-      container.style.maxHeight = (itemH * 4) + 'px';
-    } else {
-      container.style.overflowY = '';
-      container.style.maxHeight = '';
-    }
+                // اگر تعداد آیتم‌ها > 4 → اسکرول داخلی ظرف آیتم‌ها
+                const totalItems = boxes.length + 1; // + گزینه «همه»
+                if (totalItems > 4) {
+                container.style.overflowY = 'auto';
+                // سعی می‌کنیم ارتفاع واقعی آیتم را بگیریم؛ اگر نشد، 44px
+                const sampleDiv = (boxes[0] || allBox)?.closest('div.inline-flex');
+                const itemH = sampleDiv ? sampleDiv.offsetHeight : 44;
+                container.style.maxHeight = (itemH * 4) + 'px';
+                } else {
+                container.style.overflowY = '';
+                container.style.maxHeight = '';
+                }
 
-    // ناوبری با کلیک روی «همه»
-    allBox.addEventListener('change', () => {
-      if (allBox.checked) {
-        const href = allBox.dataset.href;
-        if (href) location.assign(href);
-      } else {
-        // اگر کاربر تیک «همه» را برداشت ولی هیچ‌کدام انتخاب نشد، دوباره «همه» را فعال نگه داریم
-        if (!boxes.some(x => x.checked)) allBox.checked = true;
-      }
-    });
+                // ناوبری با کلیک روی «همه»
+                allBox.addEventListener('change', () => {
+                if (allBox.checked) {
+                    const href = allBox.dataset.href;
+                    if (href) location.assign(href);
+                } else {
+                    // اگر کاربر تیک «همه» را برداشت ولی هیچ‌کدام انتخاب نشد، دوباره «همه» را فعال نگه داریم
+                    if (!boxes.some(x => x.checked)) allBox.checked = true;
+                }
+                });
 
-    // ناوبری با کلیک روی هر کتگوری
-    boxes.forEach(b => b.addEventListener('change', () => {
-      if (b.checked) {
-        boxes.forEach(x => { if (x !== b) x.checked = false; });
-        allBox.checked = false;
-        const href = b.dataset.href;
-        if (href) location.assign(href);
-      } else {
-        // اگر هیچ انتخابی باقی نماند، برگرد روی «همه»
-        if (!boxes.some(x => x.checked)) {
-          allBox.checked = true;
-          const href = allBox.dataset.href;
-          if (href) location.assign(href);
-        }
-      }
-    }));
-  })();
-});
-</script>
-
-
+                // ناوبری با کلیک روی هر کتگوری
+                boxes.forEach(b => b.addEventListener('change', () => {
+                if (b.checked) {
+                    boxes.forEach(x => { if (x !== b) x.checked = false; });
+                    allBox.checked = false;
+                    const href = b.dataset.href;
+                    if (href) location.assign(href);
+                } else {
+                    // اگر هیچ انتخابی باقی نماند، برگرد روی «همه»
+                    if (!boxes.some(x => x.checked)) {
+                    allBox.checked = true;
+                    const href = allBox.dataset.href;
+                    if (href) location.assign(href);
+                    }
+                }
+                }));
+            })();
+        });
+    </script>
 {% endblock js %}
