@@ -10,6 +10,8 @@ def products(request, slug=None):
     # ---------- query ---------- #
     products = Product.objects.all()
 
+    categories = Category.objects.all()
+
     brand = Brand.objects.all()
 
     # ---------- price range ---------- #
@@ -99,6 +101,9 @@ def products(request, slug=None):
 
     context = {
 
+        # category
+        'category' : categories,
+
         # brand
         'brand' : brand,
 
@@ -128,7 +133,7 @@ def product_detail(request, **kwargs):
 
     # for selected product
 
-    product = get_object_or_404(Product.objects.select_related('category', 'brand').prefetch_related("attribute", "gallery", "colors"), pk=kwargs["pk"])
+    product = get_object_or_404(Product.objects.select_related('brand').prefetch_related("attribute", "gallery", "colors"), pk=kwargs["pk"])
     
     # filter special sells product
 

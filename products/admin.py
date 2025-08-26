@@ -32,18 +32,21 @@ class ProductAdmin(admin.ModelAdmin):
     fieldsets = [
         ("Information", {'fields' : ('title', 'full_detail', 'description', 'image_1', 'image_2')}),
         ("Price", {'fields' : ('price', 'discount')}),
-        ('Category', {'fields' : ('category', )}),
+        ('Category', {'fields' : ('categories', )}),
         ('Brand', {'fields' : ('brand', )}),
         ("Details", {'fields' : ('is_available', 'special_sells')}),
     ]
 
+    filter_vertical = ('categories', )
+
 # -------------------- CategoryModel -------------------- #
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    list_display = ['name', 'parent']
 
     fieldsets = [
         ("Information", {'fields' : ('name', )}),
+        ("Relations", {'fields' : ('parent', )}),
     ]
 
 # -------------------- ColorModel -------------------- #
