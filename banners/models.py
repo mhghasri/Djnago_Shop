@@ -46,7 +46,7 @@ class Banner(models.Model):
             return f"{base}?{urlencode({'brand': self.brand.slug})}"        # url encoded by urlencode -> {base}?brnad=brand.slug
         
         if self.category_id:
-            return f"{base}?{urlencode({'category': self.category.slug})}"  # return f"{base}?{urlencode({'category': self.category.slug})}&{urlencode({'sort' : 'oldest'})}"
+            return reverse('products_category', args=(self.category.slug, ))
         
         
         return base
