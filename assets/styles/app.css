@@ -6181,3 +6181,25 @@ img {
 .rtl\:space-x-reverse:where([dir="rtl"], [dir="rtl"] *) > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 1;
 }
+#x__ldr_9f3c_overlay.x-ldr{
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
+  transition: opacity 300ms ease;
+}
+#x__ldr_9f3c_overlay.x-ldr.x-hide{
+  opacity: 0;
+  pointer-events: none;
+}
+/* لایه‌ی تار/ماتِ پس‌زمینه—blur قوی + fallback */
+#x__ldr_9f3c_overlay .x-ldr-bg{
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+/* مرکزچین کردن کارت */
+#x__ldr_9f3c_overlay .x-ldr-center{
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
