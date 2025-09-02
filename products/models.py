@@ -73,7 +73,17 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
 
-        self.final_price = int(self.price - (self.price * self.discount / 100))
+        # this feture update price after changing discount all final_price changed
+
+        if self.pk:     # mean if it was existed
+
+            # select the old discount by query               # this method just return the value of list and flat=True just return a list not a tuple of list
+            old_discount = Product.objects.filter(pk=self.pk).values_list('discount', flat=True).first()    # this first help us to return a value not a queryset
+
+            if old_discount != self.discount:
+                for color in self.colors.all():
+                    color.final_price = int(color.price - (color.price * self.discount / 100))
+                    color.save(update_fields=['final_price'])
 
         if not self.slug:
             self.slug = slugify(self.title, allow_unicode=True)
