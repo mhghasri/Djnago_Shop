@@ -141,17 +141,85 @@
             <div>
               <button type="submit" class="submit-btn">ورود</button>
             </div>
+            
           </form>
           <p
-            class="mt-8 text-center text-sm/6 text-gray-500 dark:text-gray-300"
+          class="mt-8 text-center text-sm/6 text-gray-500 dark:text-gray-300"
           >
-            ورود شما به معنای پذیرش
-            <a href="{% url 'questions' %}" class="text-blue-400">قوانین سایت</a> است
-          </p>
-        </div>
+          ورود شما به معنای پذیرش
+          <a href="{% url 'questions' %}" class="text-blue-400">قوانین سایت</a> است
+        </p>
       </div>
-    </section>
+    </div>
+  </section>
+      <!-- دو دکمه‌ی کاملاً مخفی (برای تست دستی اگر لازم شد) -->
+    <button id="registration-success" hidden>ثبت‌نام موفق</button>
+    <button id="login-fail" hidden>ورود ناموفق</button>
+
+    <!-- SweetAlert2 (حتماً این فایل رو داری) -->
+    <script src="{% static 'sweetalert/sweetalert.js' %}"></script>
+
+    <!-- اگر ویو مقدار alert پاس داده باشد، تبدیل به فلگ سراسری می‌کنیم -->
+    {% if alert is not None %}
+      <script>
+        window.alertFlag = {{ alert|yesno:"true,false" }};
+      </script>
+    {% endif %}
+
+    <!-- تمام منطق درجا (بدون فایل خارجی) -->
+    <script>
+      // تابع نمایش آلرت با تم تیره/روشن
+      function showAlert(title, text, icon, showCancel = false) {
+        const isDarkMode = document.documentElement.classList.contains("dark");
+        const alertOptions = {
+          background: isDarkMode ? "oklch(0.21 0.034 264.665)" : "#fff",
+          color: isDarkMode ? "oklch(0.985 0.002 247.839)" : "oklch(0.13 0.028 261.692)",
+          confirmButtonColor: isDarkMode ? "oklch(0.488 0.243 264.376)" : "oklch(0.623 0.214 259.815)",
+          cancelButtonColor: isDarkMode ? "#f44336" : "#d33",
+        };
+
+        // SweetAlert2
+        Swal.fire({
+          title: title,
+          text: text,
+          icon: icon,
+          confirmButtonText: "باشه",
+          showCancelButton: showCancel,
+          cancelButtonText: "لغو",
+          background: alertOptions.background,
+          color: alertOptions.color,
+          confirmButtonColor: alertOptions.confirmButtonColor,
+          cancelButtonColor: alertOptions.cancelButtonColor,
+        });
+      }
+
+      // پیام‌های آماده
+      const alerts = {
+        "registration-success": ["ثبت‌نام موفق!", "شما با موفقیت ثبت‌نام کردید.", "success"],
+        "login-fail": ["ورود ناموفق!", "لطفاً اطلاعات خود را بررسی کنید.", "error"],
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // اگر از سرور فلگ اومده، مستقیم آلرت مناسب رو نمایش بده
+        if (typeof window.alertFlag !== "undefined") {
+          if (window.alertFlag === true) {
+            showAlert(...alerts["registration-success"]);
+          } else {
+            showAlert(...alerts["login-fail"]);
+          }
+        }
+
+        // (اختیاری) اگر خواستی دستی تست کنی:
+        const okBtn = document.getElementById("registration-success");
+        const failBtn = document.getElementById("login-fail");
+        if (okBtn) okBtn.addEventListener("click", () => showAlert(...alerts["registration-success"]));
+        if (failBtn) failBtn.addEventListener("click", () => showAlert(...alerts["login-fail"]));
+      });
+    </script>
+
 
     <script src="{% static 'scripts/app.js' %}"></script>
+    <script src="{% static 'sweetalert/sweetalert.js' %}"></script>
+    <script src="{% static 'scripts/alert.js' %}"></script>
   </body>
 </html>
