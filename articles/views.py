@@ -6,16 +6,20 @@ from django.db.models import Count          # for count category
 
 # Create your views here.
 
-def articles(request):
-
-    # ---------- articles query ---------- #
-
-    categories = Category.objects.all()
+def articles(request, slug=None):
     
     # ---------- articles query ---------- #
 
     # articles = Article.objects.all()
-    articles = Article.objects.select_related('author','category')      # article query foreignkey selected realation
+    articles = Article.objects.select_related('author')      # article query foreignkey selected realation
+    categories = Category.objects.all()
+
+
+    # ---------- category query ---------- #
+
+    if slug:
+        category = get_object_or_404(Category, slug=slug)
+        articles = articles.filter(categories=category)
 
     # ---------- sort ---------- #
 
@@ -90,13 +94,13 @@ def articles(request):
 
 def article_details(request, **kwargs):
 
-    articles = Article.objects.select_related('category', 'author')
+    articles = Article.objects.select_related('author')
 
     # category = Category.objects.all()
 
-    category = Category.objects.annotate(article_count=Count('articles_category')) # Count('related_name')
+    category = Category.objects.annotate(article_count=Count('articles')).filter(parent__isnull = True) # Count('related_name')
 
-    article = get_object_or_404(Article.objects.select_related('category', 'author').prefetch_related('attributes', 'images'), pk=kwargs['pk'])
+    article = get_object_or_404(Article.objects.select_related('author').prefetch_related('attributes', 'images'), pk=kwargs['pk'])
 
     news = articles.exclude(pk=article.id)      # for dont show article to news list
 

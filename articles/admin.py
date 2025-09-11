@@ -21,17 +21,15 @@ class ArticleAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Information', {'fields' : ('title', 'description', 'image', 'is_news')}),
         ('Author', {'fields' : ('author', )}),
-        ('Category', {'fields' : ('category', )}),
+        ('Category', {'fields' : ('categories', )}),
     ]
+
+    filter_vertical = ("categories", )
 
 # -------------- register -------------- #
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name']
-
-    fieldsets = [
-        ("Information", {'fields' : ('name', )}),
-    ]
 
 # -------------- register -------------- #
 

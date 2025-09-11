@@ -1,8 +1,20 @@
-from django.urls import path, re_path
+from django.urls import path, register_converter
 from . views import articles, article_details
+
+class UnicodeSlugConverter:
+    regex = r'[-\w\u0600-\u06FF]+'
+
+    def to_python(self, value):
+        return value
+    
+    def to_url(self, value):
+        return value
+
+register_converter(UnicodeSlugConverter, 'uslug')
 
 urlpatterns = [
     path('articles', articles, name='articles'),
-    # path('article/<int:pk>/<slug:slug>', article_details, name='article_details')
-    re_path(r'^articles/(?P<pk>[0-9]+)/(?P<slug>[-\w\[\]\u0600-\u06FF\u0660-\u0669\u06F0-\u06F9]+)$', article_details, name='article_details'),     # use persion slug
+    path('articles/category/<uslug:slug>', articles, name="article_category"),
+    path('article/<int:pk>/<uslug:slug>', article_details, name='article_details')
+    
 ]

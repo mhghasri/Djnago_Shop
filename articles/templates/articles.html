@@ -306,7 +306,7 @@
                             {% for cat in category %}
                             <div class="inline-flex items-center mr-2.5 mt-1">
                             <label class="relative flex cursor-pointer items-center rounded-full p-3" for="cat-{{ cat.id }}" data-ripple-dark="true">
-                                <input id="cat-{{ cat.id }}" type="checkbox" name="category"
+                                <input id="cat-{% url 'article_category' cat.slug %}" type="checkbox" name="category"
                                     value="{{ cat.slug }}"
                                     class="peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 shadow hover:shadow-md transition-all
                                             before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4
@@ -635,33 +635,52 @@
         });
     </script>
     <!--filters-->
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
         const panel   = document.getElementById('content-1');
         const allBox  = document.getElementById('cat-all');
         const boxes   = Array.from(document.querySelectorAll('#cat-filter input[type="checkbox"][name="category"]'));
         const params  = new URLSearchParams(location.search);
-        const current = params.get('category'); // مثل 'mobile' یا null
+
+        // اگر صفحه‌بندی بود، با تغییر فیلتر ریست می‌کنیم
+        function resetPaging(p) { p.delete('page'); return p; }
+
+        // پایه‌ی مسیر لیست مقالات (در صورت نیاز تغییرش بده)
+        const ARTICLES_BASE = '/articles';       // اگر سایتت /fa/articles/ بود اینو همسان کن
+        const CATEGORY_PREFIX = ARTICLES_BASE + '/category/';
+
+        // خواندن کتگوری فعلی از مسیر
+        function currentCategoryFromPath() {
+            const m = location.pathname.match(new RegExp('^' + CATEGORY_PREFIX.replace(/\//g, '\\/') + '([^\\/]+)\\/?$'));
+            return m ? decodeURIComponent(m[1]) : null;
+        }
+
+        const current = currentCategoryFromPath();
 
         // وضعیت اولیه‌ی تیک‌ها و آکاردئون
         if (current) {
             allBox.checked = false;
             boxes.forEach(b => b.checked = (b.value === current));
-            // اگر فیلتر فعال است، پنل را باز کن
             panel.style.maxHeight = panel.scrollHeight + 'px';
         } else {
             allBox.checked = true;
             boxes.forEach(b => b.checked = false);
-            // بدون فیلتر: پنل بسته (کلاس max-h-0 از قبل هست)
+            // پنل بسته می‌ماند (فرض بر این‌که کلاس max-h-0 در CSS هست)
         }
 
+        // ساخت URL جدید بر اساس مسیر
         function navigateWith(nextVal) {
-            const p = new URLSearchParams(location.search);
-            p.delete('page'); // ریست صفحه‌بندی
-            if (nextVal) p.set('category', nextVal);
-            else p.delete('category');    // همه اخبار
+            const p = resetPaging(new URLSearchParams(location.search));
+            let path;
+            if (nextVal) {
+                // تغییر فقط این خط ↓
+                path = `/articles/category/${encodeURIComponent(nextVal)}`;
+            } else {
+                path = ARTICLES_BASE; // همه‌ی مقالات
+            }
             const q = p.toString();
-            location.assign(location.pathname + (q ? '?' + q : ''));
+            location.assign(path + (q ? '?' + q : ''));
         }
 
         // رفتار «همه اخبار»
@@ -674,7 +693,7 @@
             }
         });
 
-        // تک‌انتخابی: کلیک روی هر کتگوری → GET با همون slug
+        // تک‌انتخابی: کلیک روی هر کتگوری → مسیر جدید
         boxes.forEach(b => b.addEventListener('change', () => {
             if (b.checked) {
             boxes.forEach(x => { if (x !== b) x.checked = false; });
@@ -689,4 +708,5 @@
         }));
         });
     </script>
+
 {% endblock js %}

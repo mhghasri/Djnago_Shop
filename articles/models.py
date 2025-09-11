@@ -1,7 +1,8 @@
+from django.utils.text import slugify
 from django.db import models
-import os
 import string
 import random
+import os
 
 # ------------------------ function ------------------------ #
 
@@ -29,15 +30,16 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, allow_unicode=True)
+    parent = models.ForeignKey("self", on_delete=models.SET_NULL, blank=True, null=True, related_name="child")
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = self.name.lower().replace(' ', "_")
+            self.slug = slugify(self.name, allow_unicode=True)
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return f"Article | {self.name}"
 
 # -------------- Article -------------- #
 
@@ -46,21 +48,21 @@ class Article(models.Model):
     created_at = models.DateField(auto_now_add=True)
     image = models.ImageField(upload_to=article_image_path, default='articles/placeholder.png')
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='articles_author')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='articles_category')
+    categories = models.ManyToManyField(Category, related_name="articles")
     views = models.PositiveIntegerField(default=0)      # for views from users
     description = models.TextField(blank=True)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, allow_unicode=True)
     is_news = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
 
         if not self.slug:
-            self.slug = self.title.replace(" ", "_").lower()
+            self.slug = slugify(self.title, allow_unicode=True)
 
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Article | {self.title} --- {self.author.name} --- {self.category.name}"
+        return f"Article | {self.title} --- {self.author.name} --- {self.categories.name}"
     
     class Meta:
         verbose_name_plural = "Article List"

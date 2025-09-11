@@ -15,5 +15,5 @@ register_converter(UnicodeSlugConverter, 'uslug')
 urlpatterns = [
     path('products', products, name="products"),
     path('products/category/<uslug:slug>', products, name="products_category"),
-    path('product/<int:pk>/<slug:slug>', product_detail, name="product_details"),
+    path('product/<int:pk>/<uslug:slug>', product_detail, name="product_details"),
 ]
